@@ -1,0 +1,63 @@
+
+:host {
+  display: block;
+  font-size: 0;
+
+  .details {
+    display: flex;
+    align-items: center;
+    //gap: 16px;
+
+    & > .on-off-toggle-button {
+      $on-off-toggle-button-size: 72px;
+      border-right: 12px;
+      padding: 6px;
+      user-select: none;
+
+      & > svg {
+        width: $on-off-toggle-button-size;
+        height: $on-off-toggle-button-size;
+        fill: #bbb;
+        border: 1px solid #eee;
+        border-radius: 12px;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          & > svg {
+            border-color: #ddd;
+          }
+        }
+      }
+    }
+
+    & > .consumption {
+      & > * {
+        display: inline-block;
+        vertical-align: bottom;
+      }
+
+      & > .value {
+        font-size: 32px;
+        line-height: 40px;
+        color: #44317c;
+      }
+
+      & > .unit {
+        font-size: 18px;
+        line-height: 30px;
+        color: #ef5656;
+      }
+    }
+  }
+
+  &.state-on {
+    .details {
+      & > .on-off-toggle-button {
+        & > svg {
+          fill: #66c1d9;
+        }
+      }
+    }
+  }
+}

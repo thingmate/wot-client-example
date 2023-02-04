@@ -1,0 +1,30 @@
+<div class="header">
+  <div class="icon">
+    <rx-inject-slot name="icon"></rx-inject-slot>
+  </div>
+  <div class="title">
+    <rx-inject-slot name="title"></rx-inject-slot>
+  </div>
+  <div class="loader">
+    <mat-dual-ring-loader></mat-dual-ring-loader>
+  </div>
+</div>
+
+<div class="content">
+  <rx-inject-slot name="content"></rx-inject-slot>
+</div>
+
+<!--<div class="loader"></div>-->
+
+<div class="right-panel">
+  <button class="configuration-button">
+    <mat-ripple>
+      <icon-cog></icon-cog>
+    </mat-ripple>
+  </button>
+
+
+  <div class="drag">
+    <icon-drag-vertical></icon-drag-vertical>
+  </div>
+</div>

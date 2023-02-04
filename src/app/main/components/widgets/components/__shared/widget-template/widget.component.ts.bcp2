@@ -1,0 +1,130 @@
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  createComponent, IComponent,
+  IGenericComponent,
+  VirtualCustomElementNode,
+} from '@lirx/dom';
+import { MatRippleComponent } from '@lirx/dom-material';
+import { IComponentConfig } from '@lirx/dom/src/component/types/config/component-config.type';
+import { ICreateComponentOptions } from '@lirx/dom/src/component/types/options/create-component-options.type';
+import { ITypedSourcesMapEntriesTuple } from '@lirx/dom/src/misc/typed-sources-map/types/typed-sources-map-entries-tuple.type';
+import { IconCogComponent, IconDragVerticalComponent } from '@lirx/mdi';
+import { IObservable } from '../../../../../../../../../../lirx/core/dist';
+
+// @ts-ignore
+import html from './widget.component.html?raw';
+// @ts-ignore
+import style from './widget.component.scss?inline';
+
+/**
+ * COMPONENT: 'app-widget'
+ **/
+
+// interface IData {
+//   readonly title$: IObservable<string>;
+// }
+//
+// interface IWidgetComponentConfig {
+//   element: HTMLElement;
+//   inputs: [
+//     ['title', string],
+//   ],
+//   data: IData;
+// }
+//
+// export const WidgetComponent = createComponent<IWidgetComponentConfig>({
+//   name: 'app-widget',
+//   template: compileReactiveHTMLAsComponentTemplate({
+//     html,
+//     customElements: [
+//       // MatIconButtonComponent,
+//       MatRippleComponent,
+//       IconDragVerticalComponent,
+//       IconCogComponent,
+//       // IconDotsVerticalComponent,
+//     ],
+//   }),
+//   styles: [compileStyleAsComponentStyle(style)],
+//   inputs: [
+//     ['title', 'Hello world'],
+//   ],
+//   init: (node: VirtualCustomElementNode<IWidgetComponentConfig>): IData => {
+//     const title$ = node.inputs.get$('title');
+//     return {
+//       title$,
+//     };
+//   },
+// });
+
+/*-------------------*/
+
+
+
+export interface ICreateWidgetComponentConfig extends Omit<IComponentConfig, 'element'> {
+}
+
+export type IWidgetComponentInputs<GConfig extends ICreateWidgetComponentConfig> = [
+  ...(GConfig['inputs'] extends ITypedSourcesMapEntriesTuple ? GConfig['inputs'] : []),
+];
+
+export type IWidgetComponentOutputs<GConfig extends ICreateWidgetComponentConfig> = [
+  ...(GConfig['outputs'] extends ITypedSourcesMapEntriesTuple ? GConfig['outputs'] : []),
+];
+
+export type IWidgetComponentData<GConfig extends ICreateWidgetComponentConfig> = (GConfig['data'] extends object ? GConfig['data'] : {}) & {
+  readonly title$: IObservable<string>;
+}
+
+export type IWidgetComponentConfig<GConfig extends ICreateWidgetComponentConfig> = {
+  element: Element;
+  inputs: IWidgetComponentInputs<GConfig>;
+  outputs: IWidgetComponentOutputs<GConfig>;
+  data: IWidgetComponentData<GConfig>;
+};
+
+
+
+export type ICreateWidgetComponentOptions<GConfig extends ICreateWidgetComponentConfig> = ICreateComponentOptions<GConfig>
+  & {
+  icon: IGenericComponent;
+};
+
+
+export function createWidgetComponent<GConfig extends ICreateWidgetComponentConfig>(
+  {
+    icon,
+    template,
+    inputs = [] as any,
+    outputs = [] as any,
+    ...options
+  }: ICreateWidgetComponentOptions<GConfig>,
+): IComponent<IWidgetComponentConfig<GConfig>> {
+  return createComponent<IWidgetComponentConfig<GConfig>>({
+    ...options,
+    template: compileReactiveHTMLAsComponentTemplate({
+      html,
+      customElements: [
+        MatRippleComponent,
+        IconDragVerticalComponent,
+        IconCogComponent,
+        // IconDotsVerticalComponent,
+      ],
+    }),
+    styles: [
+      compileStyleAsComponentStyle(style),
+    ],
+    inputs: [
+      // ['title', 'Hello world'],
+      ...(inputs as any[]),
+    ],
+    outputs,
+    init: (node: VirtualCustomElementNode<IWidgetComponentConfig<GConfig>>): IWidgetComponentData<GConfig> => {
+      const title$ = node.inputs.get$('title');
+
+      return {
+        title$,
+      };
+    },
+  } as any);
+}

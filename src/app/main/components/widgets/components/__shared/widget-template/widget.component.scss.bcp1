@@ -1,0 +1,108 @@
+
+:host {
+  display: flex;
+  align-items: stretch;
+  font-size: 0;
+
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  overflow: hidden;
+
+  & > .content {
+    flex-grow: 1;
+  }
+
+  & > .right-panel {
+    $right-panel-width: 16px;
+    $right-panel-border-color: #eee;
+    $right-panel-button-icon-size: 14px;
+
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid $right-panel-border-color;
+    user-select: none;
+
+    & > * {
+      &:not(:last-child) {
+        border-bottom: 1px solid $right-panel-border-color;
+      }
+    }
+
+    & > button {
+      background-color: transparent;
+      border: 0;
+      padding: 0;
+      font-size: 0;
+
+      &:active {
+        background-color: #d9d9d9;
+
+        & > mat-ripple {
+          & > .content {
+            & > svg {
+              fill: #777;
+            }
+          }
+        }
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          background-color: #d9d9d9;
+
+          & > mat-ripple {
+            & > .content {
+              & > svg {
+                fill: #777;
+              }
+            }
+          }
+        }
+      }
+
+      & > mat-ripple {
+        & > .content {
+          padding: 5px (($right-panel-width - $right-panel-button-icon-size) * 0.5);
+
+          & > svg {
+            width: $right-panel-button-icon-size;
+            height: $right-panel-button-icon-size;
+            fill: #999;
+          }
+        }
+      }
+    }
+
+    & > .drag {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      overflow: hidden;
+      padding: 5px 0;
+      cursor: grab;
+
+      & > svg {
+        width: $right-panel-width;
+        height: $right-panel-width;
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    & > .right-panel {
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+
+    &:hover {
+      & > .right-panel {
+        opacity: 1;
+        background-color: #fafafa;
+      }
+    }
+  }
+}
+

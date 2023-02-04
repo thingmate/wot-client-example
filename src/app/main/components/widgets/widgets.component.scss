@@ -1,0 +1,25 @@
+
+:host {
+  display: block;
+  background-color: #fafafa;
+
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  & > .widgets {
+    $horizontal-gap: 10px;
+    $vertical-gap: 10px;
+
+    display: inline-flex;
+    height: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    & > * {
+      padding: ($vertical-gap * 0.5) ($horizontal-gap * 0.5);
+      width: var(--column-width, 200px);
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "rx-dom-examples",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "npm run clear:cache",
+    "prebuild": "npm run clear:cache",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "clear:cache": "npm run clear:cache:vite && npm run clear:cache:lirx-dom",
+    "clear:cache:vite": "node ./tools/clear-cache.js --vite",
+    "clear:cache:lirx-dom": "node ./tools/clear-cache.js --lirx-dom"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@lirx/dom-aot-plugin": "1.1.0",
+    "@node-wot/binding-http": "^0.8.4",
+    "@node-wot/binding-websockets": "^0.8.4",
+    "@node-wot/core": "^0.8.4",
+    "sass": "^1.57.1",
+    "terser": "^5.16.1",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "wot-typescript-definitions": "^0.8.0-SNAPSHOT.23"
+  },
+  "dependencies": {
+    "@lirx/core": "^1.2.0",
+    "@lirx/dom": "^0.8.0",
+    "@lirx/promise": "^1.0.0",
+    "@lirx/mdi": "^1.0.0",
+    "@lirx/dom-material": "^0.5.0-beta.1",
+    "@thingmate/wot-scripting-api": "1.0.0",
+    "tslib": "^2.5.0"
+  }
+}

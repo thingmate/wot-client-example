@@ -1,0 +1,26 @@
+<app-widget-template>
+  <rx-slot name="icon">
+    <icon-power-socket-de></icon-power-socket-de>
+  </rx-slot>
+  <rx-slot name="title">
+    Smart plug 01
+  </rx-slot>
+  <rx-slot name="content">
+    <div class="details">
+      <div
+        class="on-off-toggle-button"
+        (click)="$.$onClickOnOffToggleButton"
+      >
+        <icon-power></icon-power>
+      </div>
+      <div class="consumption">
+        <div class="value">
+          {{ $.consumption$ }}
+        </div>
+        <div class="unit">
+          W
+        </div>
+      </div>
+    </div>
+  </rx-slot>
+</app-widget-template>
