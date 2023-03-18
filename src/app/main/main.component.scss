@@ -4,5 +4,23 @@
 
   height: 100%;
   width: 100%;
-  //padding: 10px;
+
+  &.dark-theme {
+    --app-widgets-background-color: #222;
+    --app-widget-background-color: #383838;
+    --app-widget-border-color: #505050;
+
+    --widget-header-icon-color: #ddd;
+    --widget-header-title-color: #ccc;
+
+    --widget-icon-toggle-button-color: #777;
+    --widget-icon-toggle-button-color-hover: #888;
+    --widget-icon-toggle-button-color-active: #3ea3bf;
+    --widget-icon-toggle-button-color-hover-active: #47b9d9;
+    --widget-icon-toggle-button-border-color: #aaa;
+    --widget-icon-toggle-button-border-color-hover: #bbb;
+    --widget-icon-toggle-button-border-color-active: #999;
+    --widget-icon-toggle-button-border-color-hover-active: #aaa;
+    --widget-icon-toggle-button-ripple-color: #{rgba(#fff, 0.1)};
+  }
 }

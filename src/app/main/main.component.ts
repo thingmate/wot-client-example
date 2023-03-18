@@ -1,5 +1,4 @@
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
-import { MatIconsSearchComponent } from '@lirx/mdi';
 import { WidgetsComponent } from './components/widgets/widgets.component';
 
 // @ts-ignore
@@ -24,7 +23,7 @@ export const MainComponent = createComponent<IMainComponentConfig>({
   template: compileReactiveHTMLAsComponentTemplate({
     html,
     customElements: [
-      MatIconsSearchComponent,
+      // MatIconsSearchComponent,
       WidgetsComponent,
     ],
   }),

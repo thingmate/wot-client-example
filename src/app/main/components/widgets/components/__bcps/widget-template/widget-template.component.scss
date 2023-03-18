@@ -66,10 +66,9 @@
       text-overflow: ellipsis;
     }
 
-    & > .loader {
+    & > .state {
       right: 0;
       width: $header-height;
-
 
       & > mat-dual-ring-loader {
         --mat-dual-ring-loader-size: #{$header-height};
@@ -200,7 +199,8 @@
     }
   }
 
-  &.loading {
+  &.state-loading,
+  &.state-error {
     & > .content {
       opacity: 0.5;
       background-color: rgb(0 0 0 / 0.05);
@@ -209,10 +209,12 @@
     }
   }
 
-  &:not(.loading) {
+  &:not(.state-loading) {
     & > .header {
-      & > .loader {
-        display: none;
+      & > .state {
+        & > mat-dual-ring-loader {
+          display: none;
+        }
       }
     }
   }

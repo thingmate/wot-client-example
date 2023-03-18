@@ -1,7 +1,7 @@
 import { function$$, IObservable, IObserver, let$$, single } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { IconLightbulbComponent, IconLightbulbOutlineComponent, IconPowerComponent, IconPowerSocketDeComponent } from '@lirx/mdi';
-import { WidgetTemplateComponent } from '../__shared/widget-template/widget-template.component';
+import { WidgetTemplateComponent } from '../widget-template/widget-template.component';
 
 // @ts-ignore
 import html from './smart-light.component.html?raw';

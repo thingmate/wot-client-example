@@ -1,0 +1,43 @@
+@import './widget-icon-button.variables';
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  //padding: 6px;
+  user-select: none;
+  border: 1px solid $widget-icon-button-border-color;
+  border-radius: 6px;
+
+  & > mat-ripple {
+    width: 100%;
+    height: 100%;
+    --mat-ripple-color: #{$widget-icon-button-ripple-color};
+
+    & > .content {
+      width: 100%;
+      height: 100%;
+
+      & > svg {
+        width: 100%;
+        height: 100%;
+        fill: $widget-icon-button-color;
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $widget-icon-button-border-color-hover;
+
+      & > mat-ripple {
+        & > .content {
+          & > svg {
+            fill: $widget-icon-button-color-hover;
+          }
+        }
+      }
+    }
+  }
+}

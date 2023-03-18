@@ -44,17 +44,19 @@ const config = {
     // https: true,
     // host: true,
   },
-  optimizeDeps: {
-    include: [
-      '@lirx/utils',
-      '@lirx/promise',
-      '@lirx/core',
-      '@lirx/dom',
-      '@lirx/mdi',
-      '@lirx/dom-material',
-      '@thingmate/wot-scripting-api',
-    ],
-  },
+  // optimizeDeps: {
+  //   include: [
+  //     '@lifaon/math',
+  //     '@lirx/utils',
+  //     '@lirx/promise',
+  //     '@lirx/core',
+  //     '@lirx/store',
+  //     '@lirx/dom',
+  //     '@lirx/mdi',
+  //     '@lirx/dom-material',
+  //     '@thingmate/wot-scripting-api',
+  //   ],
+  // },
 };
 
 export default config;

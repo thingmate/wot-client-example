@@ -1,0 +1,22 @@
+@mixin scrollbar-mixin(
+  $scroll-width: 6px,
+  $scroll-background: #fff,
+  $scroll-color: #000
+) {
+  -webkit-overflow-scrolling: auto;
+
+  &::-webkit-scrollbar {
+    width: $scroll-width;
+    height: $scroll-width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $scroll-background;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $scroll-color;
+    width: $scroll-width;
+    height: $scroll-width;
+  }
+}

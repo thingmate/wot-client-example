@@ -1,0 +1,73 @@
+import { interval, map$$$, pipe$$, share$$$ } from '@lirx/core';
+
+interface IIntervalNodeSchema {
+  type: 'interval';
+  ms: number;
+}
+
+interface IMapNodeSchema {
+  type: 'map';
+  expression: string;
+}
+
+interface IShareNodeSchema {
+  type: 'share';
+}
+
+interface IMergeNodeSchema {
+  type: 'merge';
+}
+
+type IUnknownNodeSchema =
+  | IIntervalNodeSchema
+  | IMapNodeSchema
+  | IShareNodeSchema
+  ;
+
+
+interface ILinkSchema {
+  in: IUnknownNodeSchema;
+  out: IUnknownNodeSchema;
+}
+
+/*---------------*/
+
+const interval$ = interval(1000);
+
+const _interval: IIntervalNodeSchema = {
+  type: 'interval',
+  ms: 1000,
+};
+
+// --
+
+const map$$ = map$$$<any, number>(() => {
+  return Math.random();
+});
+
+const _map: IMapNodeSchema = {
+  type: 'map',
+  expression: 'Math.random()',
+};
+
+// --
+
+const share$$ = share$$$<number>();
+
+
+const result$ = pipe$$(interval$, [
+  map$$,
+  share$$,
+])
+
+const $out = (value: number): void => {
+  console.log(value);
+};
+
+
+
+
+// map$$(interval$)($out);
+// const value$ = map$$(interval(1000), () => {
+//   return Math.random();
+// });

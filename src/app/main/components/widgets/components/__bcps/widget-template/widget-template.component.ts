@@ -1,3 +1,4 @@
+import { createNotification, freeze, function$$, INotification } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { MatDualRingLoaderComponent, MatRippleComponent } from '@lirx/dom-material';
 import { IconCogComponent, IconDragVerticalComponent } from '@lirx/mdi';
@@ -11,10 +12,19 @@ import style from './widget-template.component.scss?inline';
  * COMPONENT: 'app-widget-template'
  **/
 
+export const STATIC_LOADING_NOTIFICATION = freeze(createNotification('loading', void 0));
+export const STATIC_RUNNING_NOTIFICATION = freeze(createNotification('running', void 0));
+
+export type IWidgetTemplateStateNotifications =
+  | INotification<'loading', void>
+  | INotification<'error', any>
+  | INotification<'running', any>
+  ;
+
 interface IWidgetTemplateComponentConfig {
   element: HTMLElement;
   inputs: [
-    ['loading', boolean],
+    ['state', IWidgetTemplateStateNotifications],
   ],
 }
 
@@ -31,10 +41,19 @@ export const WidgetTemplateComponent = createComponent<IWidgetTemplateComponentC
   }),
   styles: [compileStyleAsComponentStyle(style)],
   inputs: [
-    ['loading', false],
+    ['state', STATIC_LOADING_NOTIFICATION],
   ],
   init: (node: VirtualCustomElementNode<IWidgetTemplateComponentConfig>): void => {
-    const loading$ = node.inputs.get$('loading');
-    node.setReactiveClass('loading', loading$);
-  }
+    const state$ = node.inputs.get$('state');
+
+    const classNames$ = function$$(
+      [state$],
+      (state: IWidgetTemplateStateNotifications): Set<string> => {
+        return new Set<string>([
+          `state-${state.name}`,
+        ]);
+      },
+    );
+    node.setReactiveClassNamesList(classNames$);
+  },
 });

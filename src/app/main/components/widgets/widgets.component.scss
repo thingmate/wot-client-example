@@ -1,25 +1,24 @@
 
+$app-widgets-background-color: var(--app-widgets-background-color, #fafafa);
+$app-widget-background-color: var(--app-widget-background-color, #fff);
+$app-widget-border-color: var(--app-widget-border-color, #eaeaea);
+
 :host {
   display: block;
-  background-color: #fafafa;
-
+  background-color: $app-widgets-background-color;
   height: 100%;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
 
-  & > .widgets {
-    $horizontal-gap: 10px;
-    $vertical-gap: 10px;
-
-    display: inline-flex;
-    height: 100%;
-    flex-wrap: wrap;
-    flex-direction: column;
-
-    & > * {
-      padding: ($vertical-gap * 0.5) ($horizontal-gap * 0.5);
-      width: var(--column-width, 200px);
+  & > mat-column {
+    & > .content {
+      & > mat-column-item {
+        & > * {
+          padding: 6px;
+          border: 1px solid $app-widget-border-color;
+          border-radius: 4px;
+          background-color: $app-widget-background-color;
+        }
+      }
     }
   }
 }

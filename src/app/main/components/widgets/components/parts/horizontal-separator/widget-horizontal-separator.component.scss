@@ -1,0 +1,20 @@
+$widget-horizontal-separator-line-color: var(--widget-horizontal-separator-line-color, #ddd);
+$widget-horizontal-separator-line-height: var(--widget-horizontal-separator-line-height, 2px);
+
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: $widget-horizontal-separator-line-height;
+    left: 0;
+    right: 0;
+    top: calc(50% - #{$widget-horizontal-separator-line-height});
+    background-color: $widget-horizontal-separator-line-color;
+  }
+}
