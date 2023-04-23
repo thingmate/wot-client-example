@@ -9,16 +9,25 @@ $app-widget-border-color: var(--app-widget-border-color, #eaeaea);
   height: 100%;
   width: 100%;
 
-  & > mat-column {
-    & > .content {
-      & > mat-column-item {
-        & > * {
-          padding: 6px;
-          border: 1px solid $app-widget-border-color;
-          border-radius: 4px;
-          background-color: $app-widget-background-color;
-        }
-      }
+  mat-column-item {
+    & > * {
+      padding: 6px;
+      border: 1px solid $app-widget-border-color;
+      border-radius: 4px;
+      background-color: $app-widget-background-color;
     }
   }
+
+  //& > mat-column {
+  //  & > .content {
+  //    & > mat-column-item {
+  //      & > * {
+  //        padding: 6px;
+  //        border: 1px solid $app-widget-border-color;
+  //        border-radius: 4px;
+  //        background-color: $app-widget-background-color;
+  //      }
+  //    }
+  //  }
+  //}
 }

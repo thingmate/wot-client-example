@@ -1,0 +1,10 @@
+@import '~@lirx/dom-material/src/components/buttons/mat-button/mat-button.variables';
+
+$mat-pagination-button-content-size: var(--mat-pagination-button-content-size, 24px);
+$mat-pagination-button-vertical-padding: var(--mat-pagination-button-vertical-padding, 4px);
+$mat-pagination-button-horizontal-padding: var(--mat-pagination-button-vertical-padding, 4px);
+
+$mat-pagination-button-color-selected: var(--mat-pagination-button-color-selected, $mat-button-color-focused);
+$mat-pagination-button-background-color-selected: var(--mat-pagination-button-background-color-selected, #ccc);
+$mat-pagination-button-border-color-selected: var(--mat-pagination-button-border-color-selected, $mat-pagination-button-background-color-selected);
+

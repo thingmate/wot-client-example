@@ -1,4 +1,10 @@
 import { aotPlugin } from '@lirx/dom-aot-plugin';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const DIRNAME = fileURLToPath(new URL('.', import.meta.url));
+const NODE_MODULE_PATH = join(DIRNAME, 'node_modules');
+
 
 /**
  * @type {import('vite').UserConfig}
@@ -42,21 +48,33 @@ const config = {
   ],
   server: {
     // https: true,
-    // host: true,
+    host: true,
   },
-  // optimizeDeps: {
-  //   include: [
-  //     '@lifaon/math',
-  //     '@lirx/utils',
-  //     '@lirx/promise',
-  //     '@lirx/core',
-  //     '@lirx/store',
-  //     '@lirx/dom',
-  //     '@lirx/mdi',
-  //     '@lirx/dom-material',
-  //     '@thingmate/wot-scripting-api',
-  //   ],
-  // },
+  optimizeDeps: {
+    include: [
+      // '@lifaon/math',
+      // '@lirx/utils',
+      // '@lirx/promise',
+      // '@lirx/core',
+      // '@lirx/store',
+      // '@lirx/dom',
+      // '@lirx/mdi',
+      // '@lirx/dom-material',
+      // '@thingmate/wot-scripting-api',
+    ],
+  },
+  resolve: {
+    alias: [
+      {
+        // this is required for the SCSS modules
+        // https://github.com/vitejs/vite/issues/382
+        find: /^~(.*)$/,
+        replacement: (value) => {
+          return value.replace(/^~(.*)$/, `${NODE_MODULE_PATH}/$1`);
+        },
+      },
+    ],
+  },
 };
 
 export default config;

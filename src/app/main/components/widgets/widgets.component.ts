@@ -1,6 +1,8 @@
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
-import { MatColumnComponent, MatColumnItemComponent } from '@lirx/dom-material';
-import { SmartPlugComponent } from './components/smart-plug/smart-plug.component';
+import { MatColumnItemComponent } from './components/mat-column-item/mat-column-item.component';
+import { MatColumnComponent } from './components/mat-column/mat-column.component';
+import { MatPaginationComponent } from './components/mat-pagination/mat-pagination.component';
+import { MerossMss310Component } from './components/vendors/meross/mss310/meross-mss310.component';
 
 // @ts-ignore
 import html from './widgets.component.html?raw';
@@ -22,7 +24,8 @@ export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
     customElements: [
       MatColumnComponent,
       MatColumnItemComponent,
-      SmartPlugComponent,
+      MerossMss310Component,
+      MatPaginationComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],

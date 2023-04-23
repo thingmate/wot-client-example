@@ -1,0 +1,112 @@
+import { IObservable } from '@lirx/core';
+import {
+  IMatPaginationItem, IMatPaginationItemButton,
+  IMatPaginationItemEllipsis, IMatPaginationItemFirst,
+  IMatPaginationItemLast,
+  IMatPaginationItemNext,
+  IMatPaginationItemPage, IMatPaginationItemPrevious,
+} from '../types/mat-pagination-item.type';
+import { IReactiveMatPaginationItem } from '../types/reactive-mat-pagination-item.type';
+import { IBuildMatPaginationItemsOptions } from './build-mat-pagination-items';
+
+
+export interface IMatPaginationItemsDiffer {
+  (
+    items: readonly IMatPaginationItem[],
+  ): IReactiveMatPaginationItem[];
+}
+
+export function createMatPaginationItemsDiffer(): IMatPaginationItemsDiffer {
+  const previousReactiveItems: Map<string, IReactiveMatPaginationItem[]> = new Map<string, IReactiveMatPaginationItem[]>();
+
+  return (
+    items: readonly IMatPaginationItem[],
+  ): IReactiveMatPaginationItem[] => {
+    const reactiveItems: IReactiveMatPaginationItem[] = [];
+
+    for (let i = 0, l = items.length; i < l; i++) {
+      const item: IMatPaginationItem = items[i];
+
+    }
+
+
+    return reactiveItems;
+  };
+}
+
+/*------------*/
+
+export interface IArrayDiffer<GItem, GOutItem> {
+  (
+    items: Iterable<GItem>,
+  ): GOutItem[];
+}
+
+// export interface ICreateArrayDifferOptions<GItem, GOutItem> {
+//   (
+//     items: Iterable<GItem>,
+//   ): GOutItem[];
+// }
+//
+// export interface ICreateArrayDifferOptions<GItem, GOutItem> {
+//   (
+//     items: Iterable<GItem>,
+//   ): GOutItem[];
+// }
+
+export function createArrayDiffer<GItem, GOutItem> (
+
+): IArrayDiffer<GItem, GOutItem> {
+  const previousReactiveItems = new Map<string, any[]>();
+
+  return (
+    items: Iterable<GItem>,
+  ): GOutItem[] => {
+    const reactiveItems: GOutItem[] = [];
+
+    const iterator: Iterator<GItem> = items[Symbol.iterator]();
+    let result: IteratorResult<GItem>;
+    while (!(result = iterator.next()).done) {
+      const item: GItem = result.value;
+    }
+
+    return reactiveItems;
+  };
+}
+
+/*-----*/
+
+export type IObservifiable = Record<string, undefined | null | boolean | number | string | bigint>;
+
+export type IObservified<GValue extends IObservifiable> = {
+  [GKey in keyof GValue]: IObservable<GValue[GKey]>;
+}
+
+
+
+export interface IObservifiableDiffer<GValue extends IObservifiable>  {
+  (
+    value: GValue,
+  ): IObservified<GValue>;
+}
+
+export function createObservifiableDiffer<GValue extends IObservifiable>(
+  propertyNames: keyof GValue[],
+): IObservifiableDiffer<GValue> {
+  const observified: GValue = {} as any;
+
+  return (
+    value: GValue,
+  ): IObservified<GValue> => {
+    const reactiveItems: GOutItem[] = [];
+
+    const iterator: Iterator<GItem> = items[Symbol.iterator]();
+    let result: IteratorResult<GItem>;
+    while (!(result = iterator.next()).done) {
+      const item: GItem = result.value;
+    }
+
+    return reactiveItems;
+  };
+}
+

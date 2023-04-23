@@ -9,9 +9,9 @@ import {
   switchMap$$$,
 } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
-import { IConsumedThingProperty, ISmartPlugConsumption } from '@thingmate/wot-scripting-api';
-import { observeConsumedThingProperty } from '../../../../../../../../misc/observe-consumed-thing-property';
-import { WidgetNumberWithUnitComponent } from '../../../parts/number-with-unit/widget-number-with-unit.component';
+import { ISmartPlugConsumption, IThingProperty } from '@thingmate/wot-scripting-api';
+import { observeThingProperty } from '../../../../../../../../../../misc/observe-thing-property';
+import { WidgetNumberWithUnitComponent } from '../../../../number-with-unit/widget-number-with-unit.component';
 
 // @ts-ignore
 import html from './smart-plug-power-consumption.component.html?raw';
@@ -22,7 +22,7 @@ import style from './smart-plug-power-consumption.component.scss?inline';
  * COMPONENT: 'app-smart-plug-power-consumption'
  **/
 
-export type ISmartPlugConsumptionConsumedThingProperty = IConsumedThingProperty<string, ISmartPlugConsumption>;
+export type ISmartPlugConsumptionThingProperty = IThingProperty<ISmartPlugConsumption>;
 
 interface IData {
   readonly power$: IObservable<number>;
@@ -31,7 +31,7 @@ interface IData {
 interface ISmartPlugPowerConsumptionComponentConfig {
   element: HTMLElement;
   inputs: [
-    ['property', ISmartPlugConsumptionConsumedThingProperty],
+    ['property', ISmartPlugConsumptionThingProperty],
   ],
   data: IData;
 }
@@ -52,8 +52,8 @@ export const SmartPlugPowerConsumptionComponent = createComponent<ISmartPlugPowe
     const property$ = node.inputs.get$('property');
 
     const power$ = pipe$$(property$, [
-      switchMap$$$<ISmartPlugConsumptionConsumedThingProperty, IDefaultNotificationsUnion<ISmartPlugConsumption>>((property: ISmartPlugConsumptionConsumedThingProperty): IObservable<IDefaultNotificationsUnion<ISmartPlugConsumption>> => {
-        return observeConsumedThingProperty(property);
+      switchMap$$$<ISmartPlugConsumptionThingProperty, IDefaultNotificationsUnion<ISmartPlugConsumption>>((property: ISmartPlugConsumptionThingProperty): IObservable<IDefaultNotificationsUnion<ISmartPlugConsumption>> => {
+        return observeThingProperty(property);
       }),
       mapFilter$$$<IDefaultNotificationsUnion<ISmartPlugConsumption>, number>((notification: IDefaultNotificationsUnion<ISmartPlugConsumption>): IMapFilterMapFunctionReturn<number> => {
         return (notification.name === 'next')

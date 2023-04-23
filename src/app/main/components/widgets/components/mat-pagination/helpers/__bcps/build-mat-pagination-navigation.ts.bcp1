@@ -1,0 +1,37 @@
+import { IObservable, let$$ } from '@lirx/core';
+import { IMatPaginationItem } from '../../types/mat-pagination-item.type';
+import { buildMatPaginationItems, IBuildMatPaginationItemsOptions } from '../build-mat-pagination-items';
+import { MatPaginationNavigation } from './mat-pagination-navigation.class';
+
+export interface IBuildMatPaginationNavigationOptions extends Omit<IBuildMatPaginationItemsOptions, 'navigateToPage' | 'selectedPageIndex'> {
+}
+
+export type IBuildMatPaginationNavigationResult = [
+  item$: IObservable<readonly IMatPaginationItem[]>,
+  navigation: MatPaginationNavigation,
+];
+
+export function buildMatPaginationNavigation(
+  options: IBuildMatPaginationNavigationOptions,
+): IBuildMatPaginationNavigationResult {
+  const [$items, items$] = let$$<IMatPaginationItem[]>();
+
+  const navigation = new MatPaginationNavigation(
+    (
+      selectedPageIndex: number,
+    ): void => {
+      $items(
+        buildMatPaginationItems({
+          ...options,
+          selectedPageIndex,
+        }),
+      );
+    },
+    options.count,
+  );
+
+  return [
+    items$,
+    navigation,
+  ];
+}

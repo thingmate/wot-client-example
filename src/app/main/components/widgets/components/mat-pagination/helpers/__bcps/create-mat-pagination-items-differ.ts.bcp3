@@ -1,0 +1,252 @@
+import { createMulticastReplayLastSource, distinct$$, IMulticastReplayLastSource, IObservable } from '@lirx/core';
+import {
+  IMatPaginationItem,
+  IMatPaginationItemButton,
+  IMatPaginationItemFirst,
+  IMatPaginationItemPage,
+} from '../types/mat-pagination-item.type';
+
+export type IObservableMatPaginationItem =
+  Pick<IMatPaginationItem, 'type'>
+  & IObjectOfObservablePrimitives<Omit<IMatPaginationItem, 'type'>>;
+
+export interface IMatPaginationItemsDiffer {
+  (
+    items: readonly IMatPaginationItem[],
+  ): IObservableMatPaginationItem[];
+}
+
+export function createMatPaginationItemsDiffer(): IMatPaginationItemsDiffer {
+  type IA = [IObservableMatPaginationItem, IObjectOfObservablePrimitivesUpdateFunction<IMatPaginationItem>];
+  const previousReactiveItems = new Map<string, IA[]>();
+
+  return (
+    items: readonly IMatPaginationItem[],
+  ): IObservableMatPaginationItem[] => {
+    const newItems: IObservableMatPaginationItem[] = [];
+
+    for (let i = 0, l = items.length; i < l; i++) {
+      const item: IMatPaginationItem = items[i];
+
+      const key: string = `${item.type}`;
+
+      if (previousReactiveItems.has(key)) {
+        const differs = previousReactiveItems.get(key)!;
+        if (differs.length > 0) {
+          const [
+            newItem,
+            update,
+          ] = differs.shift()!;
+
+          update(item);
+
+          newItems.push(newItem);
+        }
+      } else {
+        const subItems = null; // TODO continue here
+        previousReactiveItems.set(key, );
+      }
+    }
+
+    return newItems;
+  };
+}
+
+/*------*/
+
+
+function createObservableMatPaginationItemFromType(
+  type: IMatPaginationItem['type'],
+): ICreateObservableMatPaginationItemResult<IMatPaginationItem> {
+  switch (type) {
+    case 'first':
+      return createObservableMatPaginationItemFirst() as any;
+    case 'page':
+      return createObservableMatPaginationItemPage() as any;
+    default:
+      throw new Error(`Unknown type: ${type}`);
+  }
+}
+
+type IMatPaginationItemWithoutType<GItem extends IMatPaginationItem> = Omit<GItem, 'type'> extends IObjectOfPrimitivesConstraint<Omit<GItem, 'type'>>
+  ? Omit<GItem, 'type'>
+  : never;
+
+type ICreateObservableMatPaginationItemResult<GItem extends IMatPaginationItem> = [
+    Pick<GItem, 'type'> & ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<IMatPaginationItemWithoutType<GItem>>[0],
+  ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<IMatPaginationItemWithoutType<GItem>>[1],
+];
+
+
+function createObservableMatPaginationItem<GItem extends IMatPaginationItem>(
+  type: GItem['type'],
+  [
+    item,
+    update,
+  ]: ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<IMatPaginationItemWithoutType<GItem>>,
+): ICreateObservableMatPaginationItemResult<GItem> {
+  return [
+    {
+      ...item,
+      type,
+    },
+    update,
+  ];
+}
+
+type ICreateObservableMatPaginationItemButtonResult = ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<IMatPaginationItemButton>;
+
+function createObservableMatPaginationItemButton(): ICreateObservableMatPaginationItemButtonResult {
+  return createObjectOfObservablePrimitivesWithUpdateFunction([
+    'pageIndex',
+    'disabled',
+  ]);
+}
+
+type ICreateObservableMatPaginationItemFirstResult = ICreateObservableMatPaginationItemResult<IMatPaginationItemFirst>;
+
+function createObservableMatPaginationItemFirst(): ICreateObservableMatPaginationItemFirstResult {
+  return createObservableMatPaginationItem(
+    'first',
+    createObservableMatPaginationItemButton(),
+  );
+}
+
+type ICreateObservableMatPaginationItemPageResult = ICreateObservableMatPaginationItemResult<IMatPaginationItemPage>;
+
+function createObservableMatPaginationItemPage(): ICreateObservableMatPaginationItemPageResult {
+  const [
+    itemButton,
+    updateButton,
+  ] = createObservableMatPaginationItemButton();
+
+  const [
+    itemPage,
+    updatePage, ,
+  ] = createObjectOfObservablePrimitivesWithUpdateFunction([
+    'selected',
+  ]);
+
+  return createObservableMatPaginationItem('page', [
+    {
+      ...itemButton,
+      ...itemPage,
+    },
+    (item: IMatPaginationItemWithoutType<IMatPaginationItemPage>): void => {
+      updateButton(item);
+      updatePage(item);
+    },
+  ]);
+}
+
+/*------------*/
+
+export interface IArrayDiffer<GItem, GOutItem> {
+  (
+    items: Iterable<GItem>,
+  ): GOutItem[];
+}
+
+// export interface ICreateArrayDifferOptions<GItem, GOutItem> {
+//   (
+//     items: Iterable<GItem>,
+//   ): GOutItem[];
+// }
+//
+// export interface ICreateArrayDifferOptions<GItem, GOutItem> {
+//   (
+//     items: Iterable<GItem>,
+//   ): GOutItem[];
+// }
+
+export function createArrayDiffer<GItem, GOutItem>(): IArrayDiffer<GItem, GOutItem> {
+  const previousReactiveItems = new Map<string, any[]>();
+
+  return (
+    items: Iterable<GItem>,
+  ): GOutItem[] => {
+    const reactiveItems: GOutItem[] = [];
+
+    const iterator: Iterator<GItem> = items[Symbol.iterator]();
+    let result: IteratorResult<GItem>;
+    while (!(result = iterator.next()).done) {
+      const item: GItem = result.value;
+    }
+
+    return reactiveItems;
+  };
+}
+
+/*-----*/
+
+export type IPrimitiveValue =
+  | undefined
+  | null
+  | boolean
+  | number
+  | bigint
+  | string
+  | symbol
+  ;
+
+export type IObjectOfPrimitivesConstraint<GValue> = {
+  [GKey in keyof GValue]: IPrimitiveValue;
+};
+
+export type IObjectOfObservablePrimitives<GValue extends IObjectOfPrimitivesConstraint<GValue>> = {
+  [GKey in keyof GValue]: IObservable<GValue[GKey]>;
+}
+
+export interface IObjectOfObservablePrimitivesUpdateFunction<GValue extends IObjectOfPrimitivesConstraint<GValue>> {
+  (
+    value: GValue,
+  ): void;
+}
+
+export type ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<GValue extends IObjectOfPrimitivesConstraint<GValue>> = [
+  objectOfObservablePrimitives: IObjectOfObservablePrimitives<GValue>,
+  update: IObjectOfObservablePrimitivesUpdateFunction<GValue>,
+]
+
+export function createObjectOfObservablePrimitivesWithUpdateFunction<GValue extends IObjectOfPrimitivesConstraint<GValue>>(
+  propertyNames: readonly (keyof GValue)[],
+): ICreateObjectOfObservablePrimitivesWithUpdateFunctionResult<GValue> {
+  type GPropertyNames = keyof GValue;
+
+  const map: Map<GPropertyNames, IMulticastReplayLastSource<IPrimitiveValue>> = new Map(
+    propertyNames.map((propertyName: GPropertyNames): [GPropertyNames, IMulticastReplayLastSource<IPrimitiveValue>] => {
+      return [
+        propertyName,
+        createMulticastReplayLastSource<IPrimitiveValue>(),
+      ];
+    }),
+  );
+
+  const objectOfObservablePrimitives: IObjectOfObservablePrimitives<GValue> = Object.fromEntries(
+    propertyNames.map((propertyName: GPropertyNames): [GPropertyNames, IObservable<IPrimitiveValue>] => {
+      return [
+        propertyName,
+        distinct$$(map.get(propertyName)!.subscribe),
+      ];
+    }),
+  ) as IObjectOfObservablePrimitives<GValue>;
+
+  const update = (
+    value: GValue,
+  ): void => {
+    for (let i = 0, l = propertyNames.length; i < l; i++) {
+      const propertyName: GPropertyNames = propertyNames[i];
+      const propertyValue: IPrimitiveValue = value[propertyName];
+      const { emit, getValue } =  map.get(propertyName)!;
+      if (propertyValue !== getValue()) {
+        emit(propertyValue);
+      }
+    }
+  };
+
+  return [
+    objectOfObservablePrimitives,
+    update,
+  ];
+}
+

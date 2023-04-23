@@ -1,5 +1,5 @@
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
-import { MatRippleComponent } from '@lirx/dom-material';
+import { matRippleModifierFunction } from '@lirx/dom-material';
 
 // @ts-ignore
 import html from './widget-icon-button.component.html?raw';
@@ -22,12 +22,10 @@ export const WidgetIconButtonComponent = createComponent<IWidgetIconButtonCompon
   name: 'app-widget-icon-button',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
-      MatRippleComponent,
-    ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
   init: (node: VirtualCustomElementNode<IWidgetIconButtonComponentConfig>): IData => {
+    matRippleModifierFunction(node);
     return {};
   },
 });

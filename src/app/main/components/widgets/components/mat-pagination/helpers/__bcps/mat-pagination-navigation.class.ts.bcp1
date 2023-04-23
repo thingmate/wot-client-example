@@ -1,0 +1,91 @@
+import { Abortable, AsyncTask, IAsyncTaskInput } from '@lirx/async-task';
+import { createMulticastReplayLastSource, IMulticastReplayLastSource, IObservable } from '@lirx/core';
+
+export interface INavigateToPageFunction {
+  (
+    pageIndex: number,
+    abortable: Abortable,
+  ): IAsyncTaskInput<void>;
+}
+
+export class MatPaginationNavigation {
+
+  protected _navigateToPage: INavigateToPageFunction;
+  protected _count: number;
+  protected _$selectedPageIndex$: IMulticastReplayLastSource<number>;
+  protected _navigating: boolean;
+
+  constructor(
+    navigateToPage: INavigateToPageFunction,
+    count: number,
+  ) {
+    this._navigateToPage = navigateToPage;
+    this._count = count;
+    this._$selectedPageIndex$ = createMulticastReplayLastSource(-1);
+    this._navigating = false;
+  }
+
+  get count(): number {
+    return this._count;
+  }
+
+  get selectedPageIndex(): number {
+    return this._$selectedPageIndex$.getValue();
+  }
+
+  get selectedPageIndex$(): IObservable<number> {
+    return this._$selectedPageIndex$.subscribe;
+  }
+
+  navigateToPage(
+    newPageIndex: number,
+    abortable: Abortable,
+  ): AsyncTask<void> {
+    if (this._navigating) {
+      return AsyncTask.error(`Already navigating`, abortable);
+    } else {
+      const _newPageIndex: number = Math.max(0, Math.min(this._count - 1, newPageIndex));
+      let task: AsyncTask<void>;
+      this._navigating = true;
+
+      if (_newPageIndex === this.selectedPageIndex) {
+        task = AsyncTask.void(abortable);
+      } else {
+        task = AsyncTask.fromFactory((abortable: Abortable): IAsyncTaskInput<void> => {
+          return this._navigateToPage(_newPageIndex, abortable);
+        }, abortable)
+          .successful((): void => {
+            this._selectedPageIndex = _newPageIndex;
+          });
+      }
+
+      return task.finally((): void => {
+        this._navigating = false;
+      });
+    }
+  }
+
+  navigateToFirstPage(
+    abortable: Abortable,
+  ): AsyncTask<void> {
+    return this.navigateToPage(0, abortable);
+  }
+
+  navigateToPreviousPage(
+    abortable: Abortable,
+  ): AsyncTask<void> {
+    return this.navigateToPage(this._selectedPageIndex - 1, abortable);
+  }
+
+  navigateToNextPage(
+    abortable: Abortable,
+  ): AsyncTask<void> {
+    return this.navigateToPage(this._selectedPageIndex + 1, abortable);
+  }
+
+  navigateToLastPage(
+    abortable: Abortable,
+  ): AsyncTask<void> {
+    return this.navigateToPage(this._count - 1, abortable);
+  }
+}
