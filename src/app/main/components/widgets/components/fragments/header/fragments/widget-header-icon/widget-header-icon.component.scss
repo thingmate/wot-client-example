@@ -1,0 +1,12 @@
+@use 'widget-header-icon.variables' as widget-header-icon;
+
+:host {
+  display: block;
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+    transform: scale(0.8);
+    fill: widget-header-icon.$widget-header-icon-color;
+  }
+}

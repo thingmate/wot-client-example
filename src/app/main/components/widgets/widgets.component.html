@@ -1,11 +1,19 @@
 <mat-column $[minColumnWidth]="360">
-  <mat-column-item *for="let item of Array.from({ length: 30 }, (_, i) => i)">
-    <div style="font-size: 16px; height: 200px">{{ item }}</div>
-<!--    <mat-pagination></mat-pagination>-->
-<!--    <app-meross-mss310></app-meross-mss310>-->
-  </mat-column-item>
+<!--    <mat-column-item *for="let item of Array.from({ length: 30 }, (_, i) => i)">-->
+<!--      <div style="font-size: 16px; height: 200px">{{ item }}</div>-->
+<!--  &lt;!&ndash;    <mat-pagination></mat-pagination>&ndash;&gt;-->
+<!--  &lt;!&ndash;    <app-meross-mss310></app-meross-mss310>&ndash;&gt;-->
+<!--    </mat-column-item>-->
 
 <!--  <mat-column-item>-->
 <!--    <app-meross-mss310></app-meross-mss310>-->
 <!--  </mat-column-item>-->
+
+  <mat-column-item *for="let thing of $.things$">
+    <app-smart-plug $[thing]="thing"></app-smart-plug>
+  </mat-column-item>
+
+  <mat-column-item>
+    <app-smart-light></app-smart-light>
+  </mat-column-item>
 </mat-column>

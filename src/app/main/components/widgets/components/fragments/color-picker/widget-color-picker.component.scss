@@ -1,0 +1,21 @@
+@use 'widget-color-picker.variables' as widget-color-picker;
+
+
+:host {
+  display: block;
+  font-size: 0;
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid widget-color-picker.$widget-color-picker-border-color;
+  border-radius: 6px;
+  background-color: var(--widget-color-picker-color);
+
+  & > input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+}
+
+

@@ -1,10 +1,10 @@
 import { Abortable } from '@lirx/async-task';
 import { IObservable, let$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
-import { connectMerossDevice, createMerossMss310SmartPlugThing, IForgeWebSocketUrlFunction } from '@thingmate/vendor-meross';
+import { connectMerossDevice, IForgeWebSocketUrlFunction, MerossMss310SmartPlugThing } from '@thingmate/vendor-meross';
 import { ISmartPlugThing } from '@thingmate/wot-scripting-api';
 import { getWebSocketProxyUrl } from '../../../../../../../../misc/get-web-socket-proxy-url';
-import { SmartPlugComponent } from '../../../parts/devices/smart-plug/smart-plug.component';
+import { SmartPlugComponent } from '../../../devices/smart-plug/smart-plug.component';
 import { MEROSS_DEVICE, MEROSS_LOGIN_DATA } from './meross-config.private';
 
 // @ts-ignore
@@ -67,7 +67,7 @@ export const MerossMss310Component = createComponent<ISmartPlugComponentConfig>(
       })
         .toPromise();
 
-      const thing = createMerossMss310SmartPlugThing({
+      const thing = new MerossMss310SmartPlugThing({
         deviceOptions,
       });
 

@@ -1,0 +1,18 @@
+@use 'widget-horizontal-separator.variables' as widget-horizontal-separator;
+
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: widget-horizontal-separator.$widget-horizontal-separator-line-height;
+    left: 0;
+    right: 0;
+    top: calc(50% - #{widget-horizontal-separator.$widget-horizontal-separator-line-height});
+    background-color: widget-horizontal-separator.$widget-horizontal-separator-line-color;
+  }
+}

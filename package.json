@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
+    "reinstall": "rm -rf ./node_modules && rm -f ./yarn.lock && yarn install",
     "clear:cache": "npm run clear:cache:vite && npm run clear:cache:lirx-dom",
     "clear:cache:vite": "node tools/clear-cache.mjs --vite",
     "clear:cache:lirx-dom": "node tools/clear-cache.mjs --lirx-dom"
@@ -22,44 +23,14 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
-    "@lirx/async-task": "^1.0.0",
-    "@lirx/utils": "latest",
+    "@lifaon/color": "latest",
+    "@lirx/async-task": "latest",
     "@lirx/core": "latest",
     "@lirx/dom": "latest",
     "@lirx/dom-material": "latest",
     "@lirx/mdi": "latest",
+    "@lirx/utils": "latest",
     "@thingmate/vendor-meross": "latest",
     "@thingmate/wot-scripting-api": "latest"
-  },
-  "_dependencies": {
-    "@lirx/async-task": "^1.0.0",
-    "@lirx/core": "^1.3.0-dev.1679328963381",
-    "@lirx/dom": "^0.9.0-dev.1679660673346",
-    "@lirx/dom-material": "^0.5.0-dev.1679325668859",
-    "@lirx/mdi": "^1.0.0-dev.1679660218082",
-    "@thingmate/vendor-meross": "^1.0.0-dev.1679586849627",
-    "@thingmate/wot-scripting-api": "^1.0.0-dev.1679586609998",
-    "tslib": "^2.5.0"
-  },
-  "__dependencies": {
-    "@lirx/core": "latest",
-    "@lirx/dom": "latest",
-    "@lirx/async-task": "^1.0.0",
-    "@lirx/mdi": "latest",
-    "@lirx/dom-material": "latest",
-    "@thingmate/vendor-meross": "latest",
-    "@thingmate/wot-scripting-api": "latest",
-    "tslib": "^2.5.0"
-  },
-  "_devDependencies": {
-    "@lirx/dom-aot-plugin": "1.1.0",
-    "@node-wot/binding-http": "^0.8.4",
-    "@node-wot/binding-websockets": "^0.8.4",
-    "@node-wot/core": "^0.8.4",
-    "sass": "^1.57.1",
-    "terser": "^5.16.1",
-    "typescript": "^4.9.4",
-    "vite": "^4.0.4",
-    "wot-typescript-definitions": "^0.8.0-SNAPSHOT.23"
   }
 }

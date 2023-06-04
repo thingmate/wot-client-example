@@ -13,7 +13,7 @@ const config = {
   build: {
     modulePreload: false,
     target: 'esnext',
-    // minify: 'terser',
+    minify: 'terser',
     polyfillModulePreload: false,
     terserOptions: {
       toplevel: true,
@@ -42,7 +42,8 @@ const config = {
     aotPlugin({
       pathMatches: (path) => {
         return path.endsWith('.ts')
-          || path.endsWith('.component.mjs');
+          || path.endsWith('.component.mjs')
+          || path.endsWith('.modifier.mjs');
       },
     }),
   ],

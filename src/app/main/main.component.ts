@@ -1,4 +1,5 @@
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+// import { MatIconsSearchComponent } from '@lirx/mdi';
 import { WidgetsComponent } from './components/widgets/widgets.component';
 
 // @ts-ignore
@@ -29,6 +30,7 @@ export const MainComponent = createComponent<IMainComponentConfig>({
   }),
   styles: [compileStyleAsComponentStyle(style)],
   init: (node: VirtualCustomElementNode<IMainComponentConfig>): IData => {
+    // node.setClass('dark-theme', true);
     return {};
   },
 });
