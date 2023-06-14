@@ -1,0 +1,19 @@
+<app-thing-base $[thing]="$.thing$">
+  <rx-slot name="icon">
+    <icon-power-socket-de></icon-power-socket-de>
+  </rx-slot>
+
+  <rx-slot name="content">
+    <mat-grid-item $[position]="[0, 1, 2, 2]">
+      <app-thing-toggle-on-off-state-button
+        $[property]="$.stateProperty$"
+      ></app-thing-toggle-on-off-state-button>
+    </mat-grid-item>
+
+    <mat-grid-item $[position]="[2, 1, 3, 2]">
+      <app-thing-power-consumption
+        $[property]="$.consumptionProperty$"
+      ></app-thing-power-consumption>
+    </mat-grid-item>
+  </rx-slot>
+</app-thing-base>

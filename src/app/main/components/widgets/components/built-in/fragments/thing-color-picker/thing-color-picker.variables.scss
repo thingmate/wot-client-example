@@ -1,0 +1,61 @@
+@use 'sass:math' as math;
+
+$k1000: rgb(255, 17, 7);
+$k2000: rgb(255, 136, 20);
+$k3000: rgb(255, 180, 106);
+$k4000: rgb(255, 208, 161);
+$k5000: rgb(255, 228, 205);
+$k6000: rgb(255, 243, 241);
+$k7000: rgb(242, 242, 255);
+$k8000: rgb(223, 231, 255);
+$k9000: rgb(210, 222, 255);
+$k10000: rgb(199, 216, 255);
+$k11000: rgb(192, 211, 255);
+$k12000: rgb(185, 207, 255);
+
+$cct-colors: $k1000, $k2000, $k3000, $k4000, $k5000, $k6000, $k7000, $k8000, $k9000, $k10000, $k11000, $k12000;
+
+$cct-gradient: '';
+@each $color in $cct-colors {
+  @if $cct-gradient == '' {
+    $cct-gradient: '#{$color}';
+  } @else {
+    $cct-gradient: $cct-gradient + ', #{$color}';
+  }
+}
+
+
+$brightness-gradient: '';
+$brightness-gradient-steps: 10;
+
+@for $i from 0 through $brightness-gradient-steps {
+  $j: 1 - math.pow(math.div($i, $brightness-gradient-steps) - 1, 2);
+  $k: ($j * 100%);
+
+  $color: rgb($k $k $k);
+  //$color: 'rgb(#{$k} #{$k} #{$k})';
+  @if $brightness-gradient == '' {
+    $brightness-gradient: '#{$color}';
+  } @else {
+    $brightness-gradient: $brightness-gradient + ', #{$color}';
+  }
+}
+
+
+@mixin cct-gradient-mixin {
+  background-image: linear-gradient(to right, #{$cct-gradient});
+}
+
+@mixin brightness-gradient-mixin {
+  //background-image: linear-gradient(to right, #000 0%, #7F7F7F 25%, #bfbfbf 50%, #fff 100%);
+  --a: #{$brightness-gradient};
+  background-image: linear-gradient(to right, #{$brightness-gradient});
+}
+
+@mixin cold-gradient-mixin {
+  background-image: linear-gradient(to right, #fff, $k12000);
+}
+
+@mixin warm-gradient-mixin {
+  background-image: linear-gradient(to right, #fff, $k2000);
+}

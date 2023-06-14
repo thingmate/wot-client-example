@@ -1,0 +1,27 @@
+<mat-loading $[loading]="$.loading$">
+  <app-widget-color-picker
+    class="rgb"
+    $[value]="$.rgbPicker$"
+    ${value}="$.$rgbPicker"
+  ></app-widget-color-picker>
+
+  <div class="sliders">
+<!--    <app-widget-range-picker-->
+<!--      class="temperature"-->
+<!--      $[min]="0"-->
+<!--      $[max]="1"-->
+<!--      $[step]="0.05"-->
+<!--      $[value]="$.temperaturePicker$"-->
+<!--      $(value)="$.$temperaturePicker"-->
+<!--    ></app-widget-range-picker>-->
+
+<!--    <app-widget-range-picker-->
+<!--      class="brightness"-->
+<!--      $[min]="0"-->
+<!--      $[max]="1"-->
+<!--      $[step]="0.01"-->
+<!--      $[value]="$.brightnessPicker$"-->
+<!--      $(value)="$.$brightnessPicker"-->
+<!--    ></app-widget-range-picker>-->
+  </div>
+</mat-loading>

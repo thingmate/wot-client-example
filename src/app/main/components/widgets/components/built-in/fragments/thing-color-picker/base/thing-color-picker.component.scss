@@ -1,0 +1,60 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+
+  gap: 4px;
+
+  & > mat-loading {
+    --mat-dual-ring-loader-color: #71abe7;
+
+    & > .rgb {
+      aspect-ratio: 1 / 1;
+      height: 100%;
+      width: auto;
+    }
+
+    & > .sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-grow: 1;
+
+      & > .temperature {
+        // https://upload.wikimedia.org/wikipedia/commons/e/e9/Color_temperature_black_body_800-12200K.svg
+        $k1000: rgb(255, 17, 7);
+        $k2000: rgb(255, 136, 20);
+        $k3000: rgb(255, 180, 106);
+        $k4000: rgb(255, 208, 161);
+        $k5000: rgb(255, 228, 205);
+        $k6000: rgb(255, 243, 241);
+        $k7000: rgb(242, 242, 255);
+        $k8000: rgb(223, 231, 255);
+        $k9000: rgb(210, 222, 255);
+        $k10000: rgb(199, 216, 255);
+        $k11000: rgb(192, 211, 255);
+        $k12000: rgb(185, 207, 255);
+
+        $colors: $k1000, $k2000, $k3000, $k4000, $k5000, $k6000, $k7000, $k8000, $k9000, $k10000, $k11000, $k12000;
+        $gradient: '';
+
+        @each $color in $colors {
+          @if $gradient == '' {
+            $gradient: '#{$color}';
+          } @else {
+            $gradient: $gradient + ', #{$color}';
+          }
+        }
+
+        background-image: linear-gradient(to right, #{$gradient});
+      }
+
+
+      & > .brightness {
+        background-image: linear-gradient(to right, #000, #fff);
+      }
+    }
+  }
+
+}

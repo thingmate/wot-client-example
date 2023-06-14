@@ -1,0 +1,58 @@
+@use '../thing-color-picker.variables' as thing-color-picker;
+
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+
+  gap: 4px;
+
+  & > mat-loading {
+    --mat-dual-ring-loader-color: #71abe7;
+
+    & > .left-container {
+      aspect-ratio: 1 / 1;
+      height: 100%;
+      width: auto;
+
+      --widget-icon-button-icon-scale: 0.6;
+    }
+
+    & > .right-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-grow: 1;
+
+      & > .temperature {
+        @include thing-color-picker.cct-gradient-mixin;
+      }
+
+      & > .brightness {
+        @include thing-color-picker.brightness-gradient-mixin;
+      }
+    }
+  }
+
+  &.mode-cct {
+    & > mat-loading {
+      & > .right-container {
+        & > .rgb {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &.mode-rgb {
+    & > mat-loading {
+      & > .right-container {
+        & > .temperature,
+        & > .brightness {
+          display: none;
+        }
+      }
+    }
+  }
+}

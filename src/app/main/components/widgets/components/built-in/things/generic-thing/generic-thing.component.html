@@ -1,0 +1,10 @@
+<rx-switch expression="$.type$">
+  <app-smart-plug
+    *switch-case="'plug'"
+    $[thing]="$.thing$"
+  ></app-smart-plug>
+  <app-smart-light
+    *switch-case="'light'"
+    $[thing]="$.thing$"
+  ></app-smart-light>
+</rx-switch>

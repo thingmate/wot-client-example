@@ -16,22 +16,22 @@
     --mat-button-color: #bbb;
 
     --mat-button-color-hover: #ccc;
-    --mat-button-background-color-hover: #282828;
+    --mat-button-background-color--hover: #282828;
 
-    --mat-pagination-button-color-selected: #ddd;
-    --mat-pagination-button-background-color-selected: #333;
+    --mat-pagination-button-color--selected: #ddd;
+    --mat-pagination-button-background-color--selected: #333;
 
     --widget-header-icon-color: #ddd;
     --widget-header-title-color: #ccc;
 
     --widget-icon-toggle-button-color: #777;
-    --widget-icon-toggle-button-color-hover: #888;
-    --widget-icon-toggle-button-color-active: #3ea3bf;
-    --widget-icon-toggle-button-color-hover-active: #47b9d9;
+    --widget-icon-toggle-button-color--hover: #888;
+    --widget-icon-toggle-button-color--active: #3ea3bf;
+    --widget-icon-toggle-button-color--hover-active: #47b9d9;
     --widget-icon-toggle-button-border-color: #aaa;
-    --widget-icon-toggle-button-border-color-hover: #bbb;
-    --widget-icon-toggle-button-border-color-active: #999;
-    --widget-icon-toggle-button-border-color-hover-active: #aaa;
+    --widget-icon-toggle-button-border-color--hover: #bbb;
+    --widget-icon-toggle-button-border-color--active: #999;
+    --widget-icon-toggle-button-border-color--hover-active: #aaa;
     --widget-icon-toggle-button-ripple-color: #{rgba(#fff, 0.1)};
   }
 }

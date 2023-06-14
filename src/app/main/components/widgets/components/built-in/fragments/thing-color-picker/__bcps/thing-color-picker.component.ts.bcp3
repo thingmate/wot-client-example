@@ -1,0 +1,256 @@
+import { IRGBColor } from '@lifaon/color';
+import { Abortable, AsyncTask } from '@lirx/async-task';
+import {
+  $$map,
+  $log, createMulticastSource, createUnicastSource, debounceTime$$,
+  distinct$$$, effect,
+  IDefaultNotificationsUnion,
+  IObservable,
+  IObserver,
+  let$$, map$$, merge,
+  notificationsToImmediate$$$,
+  pipe$$, rejected$$, shareRL$$,
+  shareRL$$$, signal, single, switchMap$$,
+  switchMap$$$, then$$, thenAny$$, toSignal,
+} from '@lirx/core';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { MatLoadingComponent } from '@lirx/dom-material';
+import { are_rgbcw_equal, cct_to_cw, cw_to_cct, ICCT, IColorThingProperty, ICW, IRGBCW } from '@thingmate/wot-scripting-api';
+import { fromAsyncTaskFactory } from '../../../../../../../../misc/from-async-task-factory';
+import { fromPushSourceWithBackPressure } from '../../../../../../../../misc/from-push-source-with-back-pressure';
+import { WidgetColorPickerComponent } from '../../../fragments/widget-color-picker/widget-color-picker.component';
+import { WidgetRangePickerComponent } from '../../../fragments/widget-range-picker/widget-range-picker.component';
+
+// @ts-ignore
+import html from './thing-color-picker.component.html?raw';
+// @ts-ignore
+import style from './thing-color-picker.component.scss?inline';
+
+/**
+ * COMPONENT: 'app-thing-color-picker'
+ **/
+
+interface IData {
+  readonly loading$: IObservable<boolean>;
+  readonly $rgbPicker: IObserver<IRGBColor>;
+  readonly rgbPicker$: IObservable<IRGBColor>;
+  // readonly $temperature: IObserver<number>;
+  // readonly temperature$: IObservable<number>;
+  // readonly $brightness: IObserver<number>;
+  // readonly brightness$: IObservable<number>;
+}
+
+interface IThingColorPickerComponentConfig {
+  element: HTMLElement;
+  inputs: [
+    ['property', IColorThingProperty],
+  ],
+  data: IData;
+}
+
+export const ThingColorPickerComponent = createComponent<IThingColorPickerComponentConfig>({
+  name: 'app-thing-color-picker',
+  template: compileReactiveHTMLAsComponentTemplate({
+    html,
+    customElements: [
+      WidgetColorPickerComponent,
+      MatLoadingComponent,
+      WidgetRangePickerComponent,
+    ],
+  }),
+  styles: [compileStyleAsComponentStyle(style)],
+  inputs: [
+    ['property'],
+  ],
+  init: (node: VirtualCustomElementNode<IThingColorPickerComponentConfig>): IData => {
+    const property$ = node.inputs.get$('property');
+
+    const loading = signal<boolean>(true);
+
+    const inputColor = signal<IRGBCW>({
+      r: 0,
+      g: 0,
+      b: 0,
+      c: 0,
+      w: 0,
+    }, {
+      equal: are_rgbcw_equal,
+    });
+
+    const propertyColor = signal<IRGBCW>({
+      r: 0,
+      g: 0,
+      b: 0,
+      c: 0,
+      w: 0,
+    }, {
+      equal: are_rgbcw_equal,
+    });
+
+    property$((property: IColorThingProperty): void => {
+      property.observe()((value: IRGBCW, abortable: Abortable): AsyncTask<void> => {
+        propertyColor.set(value, true);
+        loading.set(false);
+        return AsyncTask.void(abortable);
+      }, Abortable.never);
+
+      const color$ = debounceTime$$(inputColor.toObservable({ debounce: false, emitCurrentValue: false }), 500);
+
+      color$((color: IRGBCW): void => {
+        loading.set(true);
+        property.write(color)
+          .finally(() => {
+            loading.set(false);
+          });
+      });
+    });
+
+    const color$ = merge([
+      inputColor.toObservable({ debounce: false }),
+      propertyColor.toObservable({ debounce: false }),
+    ]);
+
+    const loading$ = loading.toObservable();
+
+    /* RGB PICKER */
+
+    const $rgbPicker = (rgb: IRGBColor): void => {
+      inputColor.set({
+        ...rgb,
+        c: 0,
+        w: 0,
+      });
+    };
+    const rgbPicker$ = color$;
+
+    /* CW */
+
+    const $cw = (cw: ICW): void => {
+      inputColor.set({
+        ...cw,
+        r: 0,
+        g: 0,
+        b: 0,
+      });
+    };
+    const cw$ = color$;
+
+    /* CCT */
+
+    // const $cct = (cct: ICCT): void => {
+    //   $cw(cct_to_cw(cct));
+    // };
+    // const cct$ = map$$(color$, cw_to_cct);
+    //
+    // /* TEMPERATURE PICKER */
+    //
+    // const $temperaturePicker = (temperature: number): void => {
+    //   $cwPicker(cct_to_cw(temperature, ));
+    // };
+    //
+    // const $temperaturePicker = map$$(color$, () => {
+    //
+    // });
+
+    // const { emit: $instantColor, subscribe: instantColor$ } = createMulticastSource<IRGBCW>();
+    //
+    // const propertyColor$ = pipe$$(property$, [
+    //   switchMap$$$<IColorThingProperty, IDefaultNotificationsUnion<IRGBCW>>((property: IColorThingProperty): IObservable<IDefaultNotificationsUnion<IRGBCW>> => {
+    //     return fromPushSourceWithBackPressure(property.observe());
+    //   }),
+    //   notificationsToImmediate$$$<IRGBCW>(),
+    //   distinct$$$<IRGBCW>({
+    //     equal: are_rgbcw_equal,
+    //   }),
+    //   shareRL$$$<IRGBCW>(),
+    // ]);
+    //
+    // /* COLOR */
+    //
+    // const $color = $instantColor;
+    //
+    // const color$ = shareRL$$(
+    //   merge([
+    //     instantColor$,
+    //     propertyColor$,
+    //   ]),
+    // );
+    //
+    // /* LOADING*/
+    //
+    // const loading$ = switchMap$$(property$, (property: IColorThingProperty): IObservable<boolean> => {
+    //   const writePropertyColor$ = debounceTime$$(instantColor$, 500);
+    //
+    //   const startLoadingDueToColorMissing$ = single(true);
+    //
+    //   const endLoadingDueToColorReceived$ = map$$(propertyColor$, () => false);
+    //
+    //   const startLoadingDueToPropertyWrite$ = map$$(writePropertyColor$, () => true);
+    //
+    //   const endLoadingDueToPropertyWrite$ = switchMap$$(
+    //     writePropertyColor$,
+    //     (color: IRGBCW) => {
+    //       return thenAny$$(
+    //         fromAsyncTaskFactory((abortable: Abortable) => property.write(color, abortable)),
+    //         (): IObservable<boolean> => {
+    //           return single(false);
+    //         },
+    //       );
+    //     },
+    //   );
+    //
+    //   return merge([
+    //     startLoadingDueToColorMissing$,
+    //     endLoadingDueToColorReceived$,
+    //     startLoadingDueToPropertyWrite$,
+    //     endLoadingDueToPropertyWrite$,
+    //   ]);
+    // });
+    //
+    // /* RGB PICKER */
+    //
+    // const $rgbPicker = $$map($color, (rgb: IRGBColor): IRGBCW => {
+    //   return {
+    //     ...rgb,
+    //     c: 0,
+    //     w: 0,
+    //   };
+    // });
+    //
+    // const rgbPicker$ = color$;
+    //
+    // /* CW PICKER */
+    //
+    // const $cwPicker = $$map($color, (cw: ICW): IRGBCW => {
+    //   return {
+    //     ...cw,
+    //     r: 0,
+    //     g: 0,
+    //     b: 0,
+    //   };
+    // });
+    //
+    // const cwPicker$ = color$;
+    //
+    //
+    // // /* TEMPERATURE PICKER */
+    // //
+    // // const $temperaturePicker = $$map($color, (rgb: IRGBColor): IRGBCW => {
+    // //   return {
+    // //     ...rgb,
+    // //     c: 0,
+    // //     w: 0,
+    // //   };
+    // // });
+    // //
+    // // const $temperaturePicker = map$$(color$, () => {
+    // //
+    // // });
+
+    return {
+      loading$,
+      $rgbPicker,
+      rgbPicker$,
+    };
+  },
+});

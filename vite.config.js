@@ -1,6 +1,7 @@
 import { aotPlugin } from '@lirx/dom-aot-plugin';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 const DIRNAME = fileURLToPath(new URL('.', import.meta.url));
 const NODE_MODULE_PATH = join(DIRNAME, 'node_modules');
@@ -39,6 +40,7 @@ const config = {
     },
   },
   plugins: [
+    // basicSsl(),
     aotPlugin({
       pathMatches: (path) => {
         return path.endsWith('.ts')

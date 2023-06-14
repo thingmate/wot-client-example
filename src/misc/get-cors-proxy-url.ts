@@ -11,28 +11,50 @@ export function getCorsProxyUrl(
   return _url;
 }
 
-export function asyncFetchJSONWithoutCORS<GData extends IAsyncTaskConstraint<GData>>(
+function forgeNoCorsRequest(
   input: RequestInfo | URL,
   init: IAsyncFetchRequestInit,
   abortable: Abortable,
-): AsyncTask<GData> {
+): AsyncTask<Request> {
   if (input instanceof Request) {
-    return AsyncTask.fromFactory(() => input.blob(), abortable)
-      .successful((body: Blob, abortable: Abortable) => {
+    return AsyncTask.fromFactory(() => {
+      return (input.body === null)
+        ? null
+        : input.blob();
+    }, abortable)
+      .successful((body: Blob | null): Request => {
         const _init: RequestInit = {};
         for (const property in input) {
           _init[property] = input[property];
         }
-        return asyncFetchJSON(
-          new Request(getCorsProxyUrl(input.url), {
-            ..._init,
-            body,
-          }),
-          init,
-          abortable,
-        );
+        return new Request(getCorsProxyUrl(input.url), {
+          ..._init,
+          body,
+        });
       });
+  } else if (
+    (typeof input === 'string')
+    || (input instanceof URL)
+  ) {
+    return AsyncTask.fromFactory((): Request => {
+      return new Request(getCorsProxyUrl(input), init);
+    }, abortable);
   } else {
     throw new Error(`Unsupported`);
   }
+}
+
+export function asyncFetchJSONWithoutCors<GData extends IAsyncTaskConstraint<GData>>(
+  input: RequestInfo | URL,
+  init: IAsyncFetchRequestInit,
+  abortable: Abortable,
+): AsyncTask<GData> {
+  return forgeNoCorsRequest(input, init, abortable)
+    .successful((request: Request, abortable: Abortable): AsyncTask<GData> => {
+      return asyncFetchJSON<GData>(
+        request,
+        init,
+        abortable,
+      );
+    });
 }

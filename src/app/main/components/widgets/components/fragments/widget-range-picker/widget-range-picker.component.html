@@ -1,0 +1,11 @@
+<div class="text">
+  {{ $.text$ }}
+</div>
+<input
+  type="range"
+  [value]="$.inputValue$"
+  [min]="$.min$"
+  [max]="$.max$"
+  [step]="$.step$"
+  (input)="$.$onInputChange"
+>

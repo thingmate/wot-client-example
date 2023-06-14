@@ -1,3 +1,12 @@
+import { AsyncTask } from '@lirx/async-task';
+import { openWebSocketMqttClient } from '@thingmate/mqtt';
+import {
+  IOpenWebSocketMqttClientOptions,
+} from '@thingmate/mqtt/src/mqtt/client/standard/implementations/from-advanced-mqtt-client/web-socket/open-web-socket-mqtt-client';
+import {
+  IWebSocketMqttClient,
+} from '@thingmate/mqtt/src/mqtt/client/standard/implementations/from-advanced-mqtt-client/web-socket/websocket-mqtt-client.type';
+
 export interface IConnectTLSOptions {
   port: number;
   hostname: string;
@@ -13,4 +22,22 @@ export function getWebSocketProxyUrl(
   const url = new URL(`ws://51.15.108.162:8081`);
   url.searchParams.set('config', JSON.stringify(options));
   return url;
+}
+
+export function openWebSocketMqttClientWithoutCors(
+  {
+    url,
+    ...options
+  }: IOpenWebSocketMqttClientOptions,
+): AsyncTask<IWebSocketMqttClient> {
+  const _url: URL = new URL(url);
+
+  return openWebSocketMqttClient({
+    ...options,
+    url: getWebSocketProxyUrl({
+      hostname: _url.hostname,
+      port: Number(_url.port),
+      protocol: 'mqtt',
+    }),
+  });
 }

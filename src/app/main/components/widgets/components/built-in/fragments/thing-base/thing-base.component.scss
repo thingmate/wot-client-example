@@ -1,0 +1,26 @@
+
+:host {
+  display: block;
+  font-size: 0;
+  position: relative;
+
+  &:not(.online) {
+    opacity: 0.5;
+    pointer-events: none;
+
+    &::after {
+      display: block;
+      content: '';
+      position: absolute;
+      inset: 0;
+
+      $color: #cccccc80;
+
+      background-image: repeating-linear-gradient(
+        -45deg,
+        $color 0 2px,
+        transparent 0 8px
+      );
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<app-thing-base $[thing]="$.thing$">
+  <rx-slot name="icon">
+    <icon-lightbulb-outline></icon-lightbulb-outline>
+  </rx-slot>
+
+  <rx-slot name="content">
+    <mat-grid-item $[position]="[0, 1, 2, 2]">
+      <app-thing-toggle-on-off-state-button
+        $[property]="$.stateProperty$"
+      ></app-thing-toggle-on-off-state-button>
+    </mat-grid-item>
+
+    <mat-grid-item $[position]="[2, 1, 10, 2]">
+      <!--    <app-thing-color-picker-rgbcw-->
+      <!--      $[property]="$.colorProperty$"-->
+      <!--    ></app-thing-color-picker-rgbcw>-->
+      <app-thing-color-picker-rgb-or-cct
+        $[property]="$.colorProperty$"
+      ></app-thing-color-picker-rgb-or-cct>
+    </mat-grid-item>
+  </rx-slot>
+</app-thing-base>

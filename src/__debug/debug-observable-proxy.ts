@@ -5,10 +5,9 @@ import {
   IObservable,
   IObserver,
   let$$,
-  mapObservable, mapObserver,
+  mapObservable, mapObserver, ObservableProxy,
 } from '@lirx/core';
 import { verifyNumberInRange } from '@lirx/utils';
-import { ObservableProxy } from '../misc/observable-proxy.class';
 
 /*--------------*/
 

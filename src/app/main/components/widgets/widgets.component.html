@@ -5,15 +5,11 @@
 <!--  &lt;!&ndash;    <app-meross-mss310></app-meross-mss310>&ndash;&gt;-->
 <!--    </mat-column-item>-->
 
-<!--  <mat-column-item>-->
-<!--    <app-meross-mss310></app-meross-mss310>-->
-<!--  </mat-column-item>-->
-
   <mat-column-item *for="let thing of $.things$">
-    <app-smart-plug $[thing]="thing"></app-smart-plug>
+    <app-generic-thing $[thing]="thing"></app-generic-thing>
   </mat-column-item>
 
-  <mat-column-item>
-    <app-smart-light></app-smart-light>
-  </mat-column-item>
+<!--  <mat-column-item>-->
+<!--    <app-smart-light></app-smart-light>-->
+<!--  </mat-column-item>-->
 </mat-column>

@@ -17,10 +17,11 @@
   "sideEffects": false,
   "devDependencies": {
     "@lirx/dom-aot-plugin": "latest",
-    "sass": "^1.62.0",
-    "terser": "^5.16.9",
-    "typescript": "^5.0.4",
-    "vite": "^4.2.1"
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "sass": "1.62.1",
+    "terser": "^5.17.7",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "@lifaon/color": "latest",
@@ -29,8 +30,12 @@
     "@lirx/dom": "latest",
     "@lirx/dom-material": "latest",
     "@lirx/mdi": "latest",
+    "@lirx/store": "latest",
+    "@lirx/stream": "latest",
     "@lirx/utils": "latest",
+    "@thingmate/mqtt": "latest",
     "@thingmate/vendor-meross": "latest",
+    "@thingmate/vendor-tuya": "latest",
     "@thingmate/wot-scripting-api": "latest"
   }
 }

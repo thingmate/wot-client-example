@@ -1,0 +1,44 @@
+<mat-grid>
+  <mat-grid-item $[position]="[0, 0, 12, 1]">
+    <app-widget-header>
+      <app-widget-header-icon>
+        <rx-inject-slot
+          name="icon"
+        ></rx-inject-slot>
+      </app-widget-header-icon>
+      <app-widget-header-title>
+        {{ $.title$ }}
+      </app-widget-header-title>
+    </app-widget-header>
+  </mat-grid-item>
+
+<!--  <mat-grid-item-->
+<!--    $[position]="[0, 1, 12, 2]"-->
+<!--    class="offline-container"-->
+<!--  >-->
+<!--    <app-widget-offline>-->
+<!--      Offline-->
+<!--    </app-widget-offline>-->
+<!--  </mat-grid-item>-->
+
+<!--  <rx-container *if="$.isOnline$">-->
+<!--    <rx-inject-slot-->
+<!--      name="content"-->
+<!--    ></rx-inject-slot>-->
+<!--  </rx-container>-->
+
+  <rx-if condition="$.isOnline$">
+    <rx-if-true>
+      <rx-inject-slot
+        name="content"
+      ></rx-inject-slot>
+    </rx-if-true>
+    <rx-if-false>
+      <mat-grid-item $[position]="[0, 1, 12, 2]">
+        <app-widget-offline>
+          Offline
+        </app-widget-offline>
+      </mat-grid-item>
+    </rx-if-false>
+  </rx-if>
+</mat-grid>

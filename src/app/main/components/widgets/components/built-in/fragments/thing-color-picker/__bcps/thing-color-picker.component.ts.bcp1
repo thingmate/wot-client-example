@@ -1,0 +1,169 @@
+import { IRGBColor } from '@lifaon/color';
+import {
+  $$map,
+  $log, createUnicastSource,
+  distinct$$$,
+  IDefaultNotificationsUnion,
+  IObservable,
+  IObserver,
+  let$$, map$$, merge,
+  notificationsToImmediate$$$,
+  pipe$$,
+  shareRL$$$, switchMap$$,
+  switchMap$$$,
+} from '@lirx/core';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { MatLoadingComponent } from '@lirx/dom-material';
+import { are_rgbcw_equal, cw_to_cct, IColorThingProperty, IRGBCW } from '@thingmate/wot-scripting-api';
+import { fromPushSourceWithBackPressure } from '../../../../../../../../misc/from-push-source-with-back-pressure';
+import { WidgetColorPickerComponent } from '../../../fragments/widget-color-picker/widget-color-picker.component';
+import { WidgetRangePickerComponent } from '../../../fragments/widget-range-picker/widget-range-picker.component';
+
+// @ts-ignore
+import html from './thing-color-picker.component.html?raw';
+// @ts-ignore
+import style from './thing-color-picker.component.scss?inline';
+
+/**
+ * COMPONENT: 'app-thing-color-picker'
+ **/
+
+interface IData {
+  readonly loading$: IObservable<boolean>;
+  readonly $rgb: IObserver<IRGBColor>;
+  readonly rgb$: IObservable<IRGBColor>;
+  readonly $temperature: IObserver<number>;
+  readonly temperature$: IObservable<number>;
+  readonly $brightness: IObserver<number>;
+  readonly brightness$: IObservable<number>;
+}
+
+interface IThingColorPickerComponentConfig {
+  element: HTMLElement;
+  inputs: [
+    ['property', IColorThingProperty],
+  ],
+  data: IData;
+}
+
+export const ThingColorPickerComponent = createComponent<IThingColorPickerComponentConfig>({
+  name: 'app-thing-color-picker',
+  template: compileReactiveHTMLAsComponentTemplate({
+    html,
+    customElements: [
+      WidgetColorPickerComponent,
+      MatLoadingComponent,
+      WidgetRangePickerComponent,
+    ],
+  }),
+  styles: [compileStyleAsComponentStyle(style)],
+  inputs: [
+    ['property'],
+  ],
+  init: (node: VirtualCustomElementNode<IThingColorPickerComponentConfig>): IData => {
+    const property$ = node.inputs.get$('property');
+
+    const propertyColor$ = pipe$$(property$, [
+      switchMap$$$<IColorThingProperty, IDefaultNotificationsUnion<IRGBCW>>((property: IColorThingProperty): IObservable<IDefaultNotificationsUnion<IRGBCW>> => {
+        return fromPushSourceWithBackPressure(property.observe());
+      }),
+      notificationsToImmediate$$$<IRGBCW>(),
+      distinct$$$<IRGBCW>({
+        equal: are_rgbcw_equal,
+      }),
+      shareRL$$$<IRGBCW>(),
+    ]);
+
+
+    const $propertyColor = map$$(property$, (property: IColorThingProperty): IObserver<IRGBCW> => {
+      const { emit: $propertyColor, subscribe: writePropertyColor$ } = createUnicastSource<IRGBCW>();
+
+      writePropertyColor$((color: IRGBCW): void => {
+        $loading(true);
+
+        property.write(color)
+          .finally(() => {
+            $loading(false);
+          });
+      });
+
+      return $propertyColor;
+    });
+
+    const [$loading, loading$] = let$$<boolean>(true);
+    const [$instantRGB, instantRGB$] = let$$<IRGBColor>();
+    const [$temperature, temperature$] = let$$<number>();
+    const [$brightness, brightness$] = let$$<number>();
+
+    const propertyRGB$ = map$$(propertyColor$, ({ r, g, b, c, w }: IRGBCW): IRGBColor => {
+      if (
+        (c === 0)
+        && (w === 0)
+      ) {
+        return {
+          r,
+          g,
+          b,
+        };
+      } else {
+        return {
+          r: 0,
+          g: 0,
+          b: 0,
+        };
+      }
+    });
+
+    const $propertyRGB = map$$($propertyColor, ($propertyColor: IObserver<IRGBCW>): IObserver<IRGBColor> => {
+      return $$map($propertyColor, (rgb: IRGBColor) => {
+        return {
+          ...rgb,
+          c: 0,
+          w: 0,
+        };
+      });
+    });
+
+    const $rgb = (rgb: IRGBColor) => {
+      $instantRGB(rgb);
+    };
+
+    // color$($log);
+    // color$(({ r, g, b, c, w }: IRGBCW): void => {
+    //   $loading(false);
+    //   $instantRGB({
+    //     r,
+    //     g,
+    //     b,
+    //   });
+    //
+    //   const { temperature, brightness } = cw_to_cct({ c, w });
+    //
+    //   $temperature(temperature);
+    //   $brightness(brightness);
+    // });
+
+    const rgb$ = merge([
+      propertyRGB$,
+      instantRGB$,
+    ]);
+
+    // const outRGB$ = debounceTime$$(rgb$, 500);
+    //
+    // outRGB$(() => {
+    //   $loading(true);
+    // });
+
+    // const temperature$ =
+
+    return {
+      loading$,
+      $rgb,
+      rgb$,
+      $temperature,
+      temperature$,
+      $brightness,
+      brightness$,
+    };
+  },
+});

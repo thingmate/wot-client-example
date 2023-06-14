@@ -1,0 +1,11 @@
+@use 'widget-header-title.variables' as widget-header-title;
+
+:host {
+  display: block;
+  color: widget-header-title.$widget-header-title-color;
+  font-size: calc(var(--mat-element-height-px) * 0.6);
+  line-height: var(--mat-element-height-px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
