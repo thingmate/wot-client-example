@@ -1,17 +1,19 @@
+import { Abortable, AsyncTask } from '@lirx/async-task';
 import {
+  $log,
   distinct$$$,
   IDefaultNotificationsUnion,
   IObservable,
   map$$,
   notificationsToImmediate$$$,
   pipe$$,
-  shareRL$$$,
+  shareRL$$$, single,
   switchMap$$$,
 } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { MatGridComponent, MatGridItemComponent } from '@lirx/dom-material';
 import { IGenericThing, IOnlineThingProperty, ISmartLightThing } from '@thingmate/wot-scripting-api';
-import { fromPushSourceWithBackPressure } from '../../../../../../../../misc/from-push-source-with-back-pressure';
+import { observeThingProperty } from '../../../../../../../../misc/observe-thing-property';
 import { WidgetHeaderIconComponent } from '../../../fragments/widget-header/fragments/widget-header-icon/widget-header-icon.component';
 import { WidgetHeaderTitleComponent } from '../../../fragments/widget-header/fragments/widget-header-title/widget-header-title.component';
 import { WidgetHeaderComponent } from '../../../fragments/widget-header/widget-header.component';
@@ -60,16 +62,16 @@ export const ThingBaseComponent = createComponent<IThingBaseComponentConfig>({
     const thing$ = node.inputs.get$('thing');
 
     const title$ = map$$(thing$, (thing: ISmartLightThing): string => {
-      return thing.description.title ?? 'Unknown device';
+      return thing.description.title;
     });
 
     const onlineProperty$ = map$$(thing$, (thing: ISmartLightThing): IOnlineThingProperty => {
-      return thing.getProperty('online');
+      return thing.properties.online;
     });
 
     const isOnline$ = pipe$$(onlineProperty$, [
       switchMap$$$<IOnlineThingProperty, IDefaultNotificationsUnion<boolean>>((property: IOnlineThingProperty): IObservable<IDefaultNotificationsUnion<boolean>> => {
-        return fromPushSourceWithBackPressure(property.observe());
+        return observeThingProperty(property, 10e3);
       }),
       notificationsToImmediate$$$<boolean>(),
       distinct$$$<boolean>(),

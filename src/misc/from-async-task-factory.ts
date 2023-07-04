@@ -1,5 +1,4 @@
-import { Abortable, AsyncTask, IAsyncTaskFactory } from '@lirx/async-task';
-import { IAsyncTaskConstraint } from '@lirx/async-task/src/async-task.class';
+import { Abortable, AsyncTask, IAsyncTaskFactory, IAsyncTaskConstraint } from '@lirx/async-task';
 import {
   createErrorNotification,
   createNextNotification,

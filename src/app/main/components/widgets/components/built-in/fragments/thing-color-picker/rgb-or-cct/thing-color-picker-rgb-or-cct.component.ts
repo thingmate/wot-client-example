@@ -1,4 +1,5 @@
 import { IRGBColor } from '@lifaon/color';
+import { Abortable } from '@lirx/async-task';
 import { $$map, IObservable, IObserver, let$$, map$$, shareRL$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { MatLoadingComponent } from '@lirx/dom-material';
@@ -79,7 +80,7 @@ export const ThingColorPickerRgbOrCctComponent = createComponent<IThingColorPick
     };
 
     node.onConnected$(property$)((property: IColorThingProperty): void => {
-      property.read()
+      property.read(Abortable.never)
         .successful(({ r, g, b }: IRGBCW): void => {
           const mode: IThingColorPickerMode = (
             (r === 0)

@@ -112,50 +112,10 @@
   resolved "http://localhost:4873/@esbuild/win32-x64/-/win32-x64-0.17.19.tgz#8cfaf2ff603e9aabb910e9c0558c26cf32744061"
   integrity sha512-lAhycmKnVOuRYNtRtatQR1LPQf2oYCkRGkSFnseDAKPl8lu5SOsK/e1sXe5a0Pc5kHIHe6P2I/ilntNv2xf3cA==
 
-"@jridgewell/gen-mapping@^0.3.0":
-  version "0.3.3"
-  resolved "http://localhost:4873/@jridgewell/gen-mapping/-/gen-mapping-0.3.3.tgz#7e02e6eb5df901aaedb08514203b096614024098"
-  integrity sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==
-  dependencies:
-    "@jridgewell/set-array" "^1.0.1"
-    "@jridgewell/sourcemap-codec" "^1.4.10"
-    "@jridgewell/trace-mapping" "^0.3.9"
-
-"@jridgewell/resolve-uri@3.1.0":
-  version "3.1.0"
-  resolved "http://localhost:4873/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"
-  integrity sha512-F2msla3tad+Mfht5cJq7LSXcdudKTWCVYUgw6pLFOOHSTtZlj6SWNYAp+AhuqLmWdBO2X5hPrLcu8cVP8fy28w==
-
-"@jridgewell/set-array@^1.0.1":
-  version "1.1.2"
-  resolved "http://localhost:4873/@jridgewell/set-array/-/set-array-1.1.2.tgz#7c6cf998d6d20b914c0a55a91ae928ff25965e72"
-  integrity sha512-xnkseuNADM0gt2bs+BvhO0p78Mk762YnZdsuzFV018NoG1Sj1SCQvpSqa7XUaTam5vAGasABV9qXASMKnFMwMw==
-
 "@jridgewell/source-map@^0.3.3":
-  version "0.3.3"
-  resolved "http://localhost:4873/@jridgewell/source-map/-/source-map-0.3.3.tgz#8108265659d4c33e72ffe14e33d6cc5eb59f2fda"
-  integrity sha512-b+fsZXeLYi9fEULmfBrhxn4IrPlINf8fiNarzTof004v3lFdntdwa9PF7vFJqm3mg7s+ScJMxXaE3Acp1irZcg==
-  dependencies:
-    "@jridgewell/gen-mapping" "^0.3.0"
-    "@jridgewell/trace-mapping" "^0.3.9"
-
-"@jridgewell/sourcemap-codec@1.4.14":
-  version "1.4.14"
-  resolved "http://localhost:4873/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz#add4c98d341472a289190b424efbdb096991bb24"
-  integrity sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==
-
-"@jridgewell/sourcemap-codec@^1.4.10":
-  version "1.4.15"
-  resolved "http://localhost:4873/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.15.tgz#d7c6e6755c78567a951e04ab52ef0fd26de59f32"
-  integrity sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==
-
-"@jridgewell/trace-mapping@^0.3.9":
-  version "0.3.18"
-  resolved "http://localhost:4873/@jridgewell/trace-mapping/-/trace-mapping-0.3.18.tgz#25783b2086daf6ff1dcb53c9249ae480e4dd4cd6"
-  integrity sha512-w+niJYzMHdd7USdiH2U6869nqhD2nbfZXND5Yp93qIbEmnDNk7PD48o+YchRVpzMU7M6jVCbenTR7PA1FLQ9pA==
-  dependencies:
-    "@jridgewell/resolve-uri" "3.1.0"
-    "@jridgewell/sourcemap-codec" "1.4.14"
+  version "0.3.4"
+  resolved "http://localhost:4873/@jridgewell/source-map/-/source-map-0.3.4.tgz#856a142864530d4059dda415659b48d37db2d556"
+  integrity sha512-KE/SxsDqNs3rrWwFHcRh15ZLVFrI0YoZtgAdIyIq9k5hUNmiWRXXThPomIxHuL20sLdgzbDFyvkUMna14bvtrw==
 
 "@lifaon/color@latest":
   version "1.0.0-dev.1685285308504"
@@ -164,10 +124,15 @@
   dependencies:
     "@lifaon/math" latest
 
+"@lifaon/math@^1.1.0-dev.1685101205890":
+  version "1.2.1"
+  resolved "http://localhost:4873/@lifaon/math/-/math-1.2.1.tgz#63b8e0359ead2feae014fd5b5e7ae237d5084068"
+  integrity sha512-NpHRf36za5imvxM1YLIv8u4iDKGQjJGF2EdsfePS49UnzECy7cPGws5iqpULsG8XBTpn47mxGNiXJwqLSfHvTA==
+
 "@lifaon/math@latest":
-  version "1.1.0-dev.1685101205890"
-  resolved "http://localhost:4873/@lifaon/math/-/math-1.1.0-dev.1685101205890.tgz#02c3764345ee435729974ffcd40d04125fdaa398"
-  integrity sha512-R5SRQbe8QaZrOsaE6ky9dyp+IVzaQBRH0qJxYb/xXmWF/t34zru2vBtuyFyEVW1BusFpbal6EM7F6yhgPjx/UA==
+  version "1.3.0-dev.1687863747918"
+  resolved "http://localhost:4873/@lifaon/math/-/math-1.3.0-dev.1687863747918.tgz#71f392c1968bde764727d6e3f9913324371934d0"
+  integrity sha512-KvtllTJB5jTJYr+zosz5hE0TPE9xJP6Qq/V7N9dcN42sqT7lfxmrv+zMkKXUSyylPN85PA/rN0c8jCLlXY5cFQ==
 
 "@lifaon/md5@^1.0.0":
   version "1.0.0"
@@ -189,17 +154,24 @@
   resolved "http://localhost:4873/@lifaon/traits/-/traits-3.0.0.tgz#a02cb8b908c2f446c873fba7ec6482f0722eca03"
   integrity sha512-IyGfjYpwQK5wUUUYVAK8zgTZ/CF6rn/mCPAuQBdp0ZEzmQns58FBJdWPAm5IlILydzgx7OMjBdXFjfUnl9hN2w==
 
+"@lirx/animations@latest":
+  version "1.0.0-dev.1687186792326"
+  resolved "http://localhost:4873/@lirx/animations/-/animations-1.0.0-dev.1687186792326.tgz#39359d32647bc222670a159eb37cfbf5febdb7d9"
+  integrity sha512-kxhq9B81O/zNUL1Cwd0B8UJPVe34ONqLQNPTPNY53mWOMc6frQGrg6OJwWMXR1DKTCUdioSZeTnQzIy+/rHhcw==
+  dependencies:
+    "@lifaon/math" "^1.1.0-dev.1685101205890"
+
 "@lirx/async-task@latest":
-  version "1.2.0-dev.1686055436778"
-  resolved "http://localhost:4873/@lirx/async-task/-/async-task-1.2.0-dev.1686055436778.tgz#22521a161592a59c7395dae80328b961769e3aad"
-  integrity sha512-9wynqYaqaDAIz5yiU15BIqLqrWDlLW/Anioxt6sn9rwVcAFsMD/FvWBHS901Ak5Bqxk70dBVwC/J7W/AoXZEPA==
+  version "1.3.0-dev.1688039419576"
+  resolved "http://localhost:4873/@lirx/async-task/-/async-task-1.3.0-dev.1688039419576.tgz#ac43f7f18233e25a11617f23a990d9dedaa7f3ad"
+  integrity sha512-rtrF18Qxgi0eYFPzhHDtO2eFHQ3vc+ACtxf9KddfzleVgKnNNUC5kjOyOyiQMScKtIRJ61rJlcLjIre8PHY+wg==
 
 "@lirx/core@latest":
-  version "1.4.0-dev.1686664702860"
-  resolved "http://localhost:4873/@lirx/core/-/core-1.4.0-dev.1686664702860.tgz#7d7436abcf6990039a1b1ccef7129d62cd8d1836"
-  integrity sha512-fvwoHl7KFF+b9PapcMvqdqerX3MJrxXBuA5g5X0lgHKgZUDzaI8xYUIIgmviDqDRj4UaIAjMsof2FiC0FjFAzw==
+  version "1.4.1"
+  resolved "http://localhost:4873/@lirx/core/-/core-1.4.1.tgz#68bbc61711b2acc9f02ad240445e86d6cf941953"
+  integrity sha512-KX8NiMyGTlISxHymZXnmSG35FkVwQezBcyTZMqgXk9wZQ3zufDFmNQNa4iAC7kW9YUP6aNma7OC5+RtmiyGxuA==
   dependencies:
-    "@lirx/utils" latest
+    "@lirx/utils" "^1.1.3"
 
 "@lirx/dom-aot-plugin@latest":
   version "1.2.0-dev.1686233490757"
@@ -219,18 +191,20 @@
     source-map "^0.7.4"
 
 "@lirx/dom-material@latest":
-  version "0.6.0-dev.1686299752814"
-  resolved "http://localhost:4873/@lirx/dom-material/-/dom-material-0.6.0-dev.1686299752814.tgz#e821fc19adec6d39f91d2cf48ee9c9bfb1d55fd0"
-  integrity sha512-yQbzhyQbFGIRNAzTJbRCOuH1MuAhBmDaoNqHYyC12uDRRJeI3zLekZ4Kes0Fk4DS20AXdZuxA7R8y+/koWrHeg==
+  version "0.6.0-dev.1687528635094"
+  resolved "http://localhost:4873/@lirx/dom-material/-/dom-material-0.6.0-dev.1687528635094.tgz#395b74eaa0c44a163851c81679cf9dd72b1a7c0c"
+  integrity sha512-DvLpaGtYOop6SFHlEqei9a+7BFG+BdAYaBk8s+u7tj2ZSOCgxPQ7t1UImJA+PXRwLbznMSuP2LvLRrvuMhNV6g==
   dependencies:
+    "@lirx/animations" latest
     "@lirx/core" latest
     "@lirx/dom" latest
     "@lirx/mdi" latest
+    "@lirx/utils" latest
 
 "@lirx/dom@latest":
-  version "0.9.0-dev.1686233531155"
-  resolved "http://localhost:4873/@lirx/dom/-/dom-0.9.0-dev.1686233531155.tgz#fa5745b5f7ac12971962788f7649ed340dc05ec3"
-  integrity sha512-gN4dRbKGNYnUvKiYik1CgCaZMy9mc0COWX+wKR0S0COrn1hk86auJzM5Iw2mtX0TCb2K7y7JSM3bN1jLHcWQ0g==
+  version "0.9.0-dev.1687518609027"
+  resolved "http://localhost:4873/@lirx/dom/-/dom-0.9.0-dev.1687518609027.tgz#41c2413743b78bea051db41ca256fe9ebcbc24f6"
+  integrity sha512-PMLwk2ULLcG/WeFXomyBi+/j7nF2DAYleTj42zfIbdnYEGh7pjyF/Pe0vwPw7g16kmmAayLsDsjCKmp6zCJyHA==
   dependencies:
     "@lirx/core" latest
     "@lirx/utils" latest
@@ -244,26 +218,31 @@
     "@lirx/dom" latest
 
 "@lirx/store@latest":
-  version "2.0.0-dev.1686579661362"
-  resolved "http://localhost:4873/@lirx/store/-/store-2.0.0-dev.1686579661362.tgz#f68275bba14f295c3901ee9a5094b50821facfce"
-  integrity sha512-BrKq09BGW5AlUjKnaa3vw6r7GveuG6XeHpWC0RLIALop9i1Z0xAM+B192xAZvrGffgy/Ykf3z6+jgxIpGFUj3g==
+  version "2.0.0-dev.1687166647561"
+  resolved "http://localhost:4873/@lirx/store/-/store-2.0.0-dev.1687166647561.tgz#89bc3ce78881c8cd7af682a9f18ee811fc6e9a5f"
+  integrity sha512-Iv6zsd5WhcqLewUrc9XeIik7vX976yI6OMKOnbKVmKj6B4irZ1ym/iKPBGP6nZ41fwFnukt+JuW2UUeu9l8KEw==
   dependencies:
     "@lirx/async-task" latest
     "@lirx/core" latest
     "@lirx/utils" latest
 
 "@lirx/stream@latest":
-  version "0.8.0-dev.1686311699707"
-  resolved "http://localhost:4873/@lirx/stream/-/stream-0.8.0-dev.1686311699707.tgz#711a839eeecb6239bb63a539b59f837092877016"
-  integrity sha512-GWoRFVGAQpqr0g2ssLIN+4DY5CdHtdkmlb790MmOirEyRupKVH7pkmpCvJrTkkEJ9kA9udz8aZBEKNFNKUhDeg==
+  version "0.8.0-dev.1686928394277"
+  resolved "http://localhost:4873/@lirx/stream/-/stream-0.8.0-dev.1686928394277.tgz#3d99d22f52830061f4628eec092600ed39f30ab9"
+  integrity sha512-PJ9aoo3jGwsrr3O5pvbueIOIIYKOA1VOw4y3x4ZtR5Jf/mpuHq3FFBrAl1a18xNI7/aMrbxc0a/RVrnnRlxjBw==
   dependencies:
     "@lirx/async-task" latest
     "@lirx/utils" latest
 
+"@lirx/utils@^1.1.3":
+  version "1.1.3"
+  resolved "http://localhost:4873/@lirx/utils/-/utils-1.1.3.tgz#bf1135fdc8d3c3d71b95af7d03f618ef606a2268"
+  integrity sha512-zpFu9rK2yyrubJNNYWHZfkMS6YdmH7wt21oQHmzTDEc0wBOFOlJ3W9rgp6kmlYwibdGntRt5Rw/zXrUOilwmHA==
+
 "@lirx/utils@latest":
-  version "1.1.2-dev.1686306879987"
-  resolved "http://localhost:4873/@lirx/utils/-/utils-1.1.2-dev.1686306879987.tgz#4264237338b54d3c4c2d8ac2b4b7e1688ef4ac14"
-  integrity sha512-IAFRzfFTy6DhwFzTEYrjw5SD0cDmmX5eLweFi9TEZwbybbA8ZZZQp2zfnHIM0+zda32uEl7l8bojPnIejls9Gg==
+  version "1.1.4-dev.1687949833278"
+  resolved "http://localhost:4873/@lirx/utils/-/utils-1.1.4-dev.1687949833278.tgz#10e55676dd607068ac684ad77ac1cbd9e94ec2ed"
+  integrity sha512-ou0Aq5MFuB0hxmjTXOK7cwoD1tMQdJRizdoaMuCimWm3WJpvhqAALOA9v88u3x6PaOIE3lzPzJkhwUYlq6ZZqQ==
 
 "@thingmate/mqtt@latest":
   version "1.0.0-dev.1680091067891"
@@ -278,9 +257,9 @@
     "@lirx/utils" latest
 
 "@thingmate/vendor-meross@latest":
-  version "1.0.0-dev.1686647590442"
-  resolved "http://localhost:4873/@thingmate/vendor-meross/-/vendor-meross-1.0.0-dev.1686647590442.tgz#d79bf137d18fe764825e7454ea688a3e4277cdee"
-  integrity sha512-7J3QoeECIjEtxknsVhkHd6bznhoCtpKVuDoi8rhHFccvODhsoEjQGSqP++bWMYpsGxl8A3HJLw7QCSJqlFN7Lw==
+  version "1.0.0-dev.1688127398360"
+  resolved "http://localhost:4873/@thingmate/vendor-meross/-/vendor-meross-1.0.0-dev.1688127398360.tgz#c4a4839f9e9deac35901e156901897e7cce003b5"
+  integrity sha512-DiG/vj9UMygQP6ifplmTrGJqfqV4Q2hRcZznZYX88bPTnNVNlmWDHZbUxRODq+cjGTUsMSN+0W4eO8srE4/LNA==
   dependencies:
     "@lifaon/md5" "^1.0.0"
     "@lirx/async-task" latest
@@ -289,9 +268,9 @@
     "@thingmate/wot-scripting-api" latest
 
 "@thingmate/vendor-tuya@latest":
-  version "1.0.0-dev.1686652829412"
-  resolved "http://localhost:4873/@thingmate/vendor-tuya/-/vendor-tuya-1.0.0-dev.1686652829412.tgz#a91c9d38915078f3da833edb5a6b1e944169fd30"
-  integrity sha512-8HEr6/+vmjBhMLltqyLXobXeCwd3xZk1AeuDLDu/MK2zjA8YkScYXsCO3D54B7BK6aX8ZuQOG0W4B3kfqQdw2Q==
+  version "1.0.0-dev.1688118274484"
+  resolved "http://localhost:4873/@thingmate/vendor-tuya/-/vendor-tuya-1.0.0-dev.1688118274484.tgz#4d73e02fcc5a83de1026ab2eee5d5e8fb49dcb9c"
+  integrity sha512-rAUQfCQ8IHM21R/IR2/DB41tj8KlfFrhRftPl+FggG90mzvFQ1jCHxAm1cjEpsyD+Snm7nUrUe/g7+TpedyABg==
   dependencies:
     "@lifaon/color" latest
     "@lifaon/math" latest
@@ -300,15 +279,14 @@
     "@thingmate/wot-scripting-api" latest
 
 "@thingmate/wot-scripting-api@latest":
-  version "1.0.0-dev.1686646646166"
-  resolved "http://localhost:4873/@thingmate/wot-scripting-api/-/wot-scripting-api-1.0.0-dev.1686646646166.tgz#3ffede2cb1f00a3a08df7a145dfee4d5ecd56eff"
-  integrity sha512-SwVxdjSRby+XtvtDtDYdQlq9FXX5Ui2rfo0KSF2CeQwV7WyLuAStUvjaGJ2oUC+Fa1PsObNhrm/Q9hvtgbz2YA==
+  version "1.0.0-dev.1688123446865"
+  resolved "http://localhost:4873/@thingmate/wot-scripting-api/-/wot-scripting-api-1.0.0-dev.1688123446865.tgz#c564dc5db08b33ab6d76713b3f0939e8e37ae180"
+  integrity sha512-PEiM/3sDVw7/c655pCx1C/Cptv+8oZj17H54aTPygUvXbUMVHgUiRDpsSBQQ84Rm34BsDQ26MzPf3WB7Mvj44g==
   dependencies:
-    "@lifaon/color" latest
     "@lirx/async-task" latest
+    "@lirx/core" latest
     "@lirx/stream" latest
     "@lirx/utils" latest
-    wot-thing-description-types "^1.1.0-24-May-2023"
 
 "@tootallnate/once@2":
   version "2.0.0"
@@ -336,9 +314,9 @@ acorn-walk@^8.2.0:
   integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
 
 acorn@^8.8.2:
-  version "8.8.2"
-  resolved "http://localhost:4873/acorn/-/acorn-8.8.2.tgz#1b2f25db02af965399b9776b0c2c391276d37c4a"
-  integrity sha512-xjIYgE8HBrkpd/sJqOGNspf8uHG+NOHGOw6a/Urj8taM2EXfdNAH2oFcPeIFfsv3+kz/mJrS5VuMqbNLjCa2vw==
+  version "8.9.0"
+  resolved "http://localhost:4873/acorn/-/acorn-8.9.0.tgz#78a16e3b2bcc198c10822786fa6679e245db5b59"
+  integrity sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==
 
 agent-base@6:
   version "6.0.2"
@@ -383,12 +361,12 @@ braces@~3.0.2:
     fill-range "^7.0.1"
 
 browserslist@^4.0.0, browserslist@^4.21.4:
-  version "4.21.8"
-  resolved "http://localhost:4873/browserslist/-/browserslist-4.21.8.tgz#db2498e1f4b80ed199c076248a094935860b6017"
-  integrity sha512-j+7xYe+v+q2Id9qbBeCI8WX5NmZSRe8es1+0xntD/+gaWXznP8tFEkv5IgSaHf5dS1YwVMbX/4W6m937mj+wQw==
+  version "4.21.9"
+  resolved "http://localhost:4873/browserslist/-/browserslist-4.21.9.tgz#e11bdd3c313d7e2a9e87e8b4b0c7872b13897635"
+  integrity sha512-M0MFoZzbUrRU4KNfCrDLnvyE7gub+peetoTid3TBIqtunaDJyXlwhakT+/VkvSXcfIzFfK/nkCs4nmyTmxdNSg==
   dependencies:
-    caniuse-lite "^1.0.30001502"
-    electron-to-chromium "^1.4.428"
+    caniuse-lite "^1.0.30001503"
+    electron-to-chromium "^1.4.431"
     node-releases "^2.0.12"
     update-browserslist-db "^1.0.11"
 
@@ -415,10 +393,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001502:
-  version "1.0.30001502"
-  resolved "http://localhost:4873/caniuse-lite/-/caniuse-lite-1.0.30001502.tgz#f7e4a76eb1d2d585340f773767be1fefc118dca8"
-  integrity sha512-AZ+9tFXw1sS0o0jcpJQIXvFTOB/xGiQ4OQ2t98QX3NDn2EZTSRBC801gxrsGgViuq2ak/NLkNgSNEPtCr5lfKg==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001503:
+  version "1.0.30001509"
+  resolved "http://localhost:4873/caniuse-lite/-/caniuse-lite-1.0.30001509.tgz#2b7ad5265392d6d2de25cd8776d1ab3899570d14"
+  integrity sha512-2uDDk+TRiTX5hMcUYT/7CSyzMZxjfGu0vAUjS2g0LSD8UoXOv0LtpH4LxGMemsiPq6LCVIUjNwVM0erkOkGCDA==
 
 "chokidar@>=3.0.0 <4.0.0":
   version "3.5.3"
@@ -644,10 +622,10 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-electron-to-chromium@^1.4.428:
-  version "1.4.428"
-  resolved "http://localhost:4873/electron-to-chromium/-/electron-to-chromium-1.4.428.tgz#c31fc88e854f49d8305cdabf6ec934ff1588a902"
-  integrity sha512-L7uUknyY286of0AYC8CKfgWstD0Smk2DvHDi9F0GWQhSH90Bzi7iDrmCbZKz75tYJxeGSAc7TYeKpmbjMDoh1w==
+electron-to-chromium@^1.4.431:
+  version "1.4.446"
+  resolved "http://localhost:4873/electron-to-chromium/-/electron-to-chromium-1.4.446.tgz#c23fbc7884bfe43088d5eb908a858dbb35ab190b"
+  integrity sha512-4Gnw7ztEQ/E0eOt5JWfPn9jjeupfUlKoeW5ETKP9nLdWj+4spFoS3Stj19fqlKIaX28UQs0fNX+uKEyoLCBnkw==
 
 entities@^4.2.0, entities@^4.4.0:
   version "4.5.0"
@@ -1190,9 +1168,9 @@ requires-port@^1.0.0:
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
 
 rollup@^3.21.0:
-  version "3.25.1"
-  resolved "http://localhost:4873/rollup/-/rollup-3.25.1.tgz#9fff79d22ff1a904b2b595a2fb9bc3793cb987d8"
-  integrity sha512-tywOR+rwIt5m2ZAWSe5AIJcTat8vGlnPFAv15ycCrw33t6iFsXZ6mzHVFh2psSjxQPmI+xgzMZZizUAukBI4aQ==
+  version "3.26.0"
+  resolved "http://localhost:4873/rollup/-/rollup-3.26.0.tgz#9f2e0316a4ca641911cefd8515c562a9124e6130"
+  integrity sha512-YzJH0eunH2hr3knvF3i6IkLO/jTjAEwU4HoMUbQl4//Tnl3ou0e7P5SjxdDr8HQJdeUJShlbEHXrrnEHy1l7Yg==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -1271,9 +1249,9 @@ symbol-tree@^3.2.4:
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
 terser@^5.15.1, terser@^5.17.7:
-  version "5.18.0"
-  resolved "http://localhost:4873/terser/-/terser-5.18.0.tgz#dc811fb8e3481a875d545bda247c8730ee4dc76b"
-  integrity sha512-pdL757Ig5a0I+owA42l6tIuEycRuM7FPY4n62h44mRLRfnOxJkkOHd6i89dOpwZlpF6JXBwaAHF6yWzFrt+QyA==
+  version "5.18.2"
+  resolved "http://localhost:4873/terser/-/terser-5.18.2.tgz#ff3072a0faf21ffd38f99acc9a0ddf7b5f07b948"
+  integrity sha512-Ah19JS86ypbJzTzvUCX7KOsEIhDaRONungA4aYBjEP3JZRf4ocuDzTg4QWZnPn9DEMiMYGJPiSOy7aykoCc70w==
   dependencies:
     "@jridgewell/source-map" "^0.3.3"
     acorn "^8.8.2"
@@ -1305,14 +1283,14 @@ tr46@^4.1.1:
     punycode "^2.3.0"
 
 tslib@^2.0.3:
-  version "2.5.3"
-  resolved "http://localhost:4873/tslib/-/tslib-2.5.3.tgz#24944ba2d990940e6e982c4bea147aba80209913"
-  integrity sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==
+  version "2.6.0"
+  resolved "http://localhost:4873/tslib/-/tslib-2.6.0.tgz#b295854684dbda164e181d259a22cd779dcd7bc3"
+  integrity sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==
 
 typescript@^5.1.3:
-  version "5.1.3"
-  resolved "http://localhost:4873/typescript/-/typescript-5.1.3.tgz#8d84219244a6b40b6fb2b33cc1c062f715b9e826"
-  integrity sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==
+  version "5.1.6"
+  resolved "http://localhost:4873/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
+  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
 
 universalify@^0.2.0:
   version "0.2.0"
@@ -1382,11 +1360,6 @@ whatwg-url@^12.0.0, whatwg-url@^12.0.1:
   dependencies:
     tr46 "^4.1.1"
     webidl-conversions "^7.0.0"
-
-wot-thing-description-types@^1.1.0-24-May-2023:
-  version "1.1.0-24-May-2023"
-  resolved "http://localhost:4873/wot-thing-description-types/-/wot-thing-description-types-1.1.0-24-May-2023.tgz#69aa263ba40d7a86651aa55f55dd646fa5f44dae"
-  integrity sha512-iUwWIPskTQc/19Ax0JxpdufpKKBsvY2h3DTgHA05+mdHPknvDAMhLbbFM5pd+u6hQonQqA2T6MF/zJ8r1Zy1qQ==
 
 ws@^8.13.0:
   version "8.13.0"

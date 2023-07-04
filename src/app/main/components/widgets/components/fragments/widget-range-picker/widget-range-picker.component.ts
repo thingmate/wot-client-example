@@ -70,7 +70,7 @@ export const WidgetRangePickerComponent = createComponent<IWidgetRangePickerComp
       return (event.target as HTMLInputElement).valueAsNumber;
     });
 
-    node.setReactiveEventListener('pointerdown', event => event.stopPropagation());
+    node.setEventListener('pointerdown', event => event.stopPropagation());
 
     const normalizedValue$ = function$$(
       [value$, min$, max$],

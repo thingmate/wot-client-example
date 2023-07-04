@@ -41,13 +41,13 @@ const config = {
   },
   plugins: [
     // basicSsl(),
-    aotPlugin({
-      pathMatches: (path) => {
-        return path.endsWith('.ts')
-          || path.endsWith('.component.mjs')
-          || path.endsWith('.modifier.mjs');
-      },
-    }),
+    // aotPlugin({
+    //   pathMatches: (path) => {
+    //     return path.endsWith('.ts')
+    //       || path.endsWith('.component.mjs')
+    //       || path.endsWith('.modifier.mjs');
+    //   },
+    // }),
   ],
   server: {
     // https: true,

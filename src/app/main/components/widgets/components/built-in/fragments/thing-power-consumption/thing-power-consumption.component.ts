@@ -14,7 +14,6 @@ import { observeThingProperty } from '../../../../../../../../misc/observe-thing
 import {
   WidgetNumberWithSiUnitComponent
 } from '../../../fragments/widget-number-with-unit/built-in/widget-number-with-si-unit/widget-number-with-si-unit.component';
-import { WidgetNumberWithUnitComponent } from '../../../fragments/widget-number-with-unit/widget-number-with-unit.component';
 
 // @ts-ignore
 import html from './thing-power-consumption.component.html?raw';
@@ -54,7 +53,7 @@ export const ThingPowerConsumptionComponent = createComponent<IThingPowerConsump
 
     const power$ = pipe$$(property$, [
       switchMap$$$<IPowerConsumptionThingProperty, IDefaultNotificationsUnion<IPowerConsumption>>((property: IPowerConsumptionThingProperty): IObservable<IDefaultNotificationsUnion<IPowerConsumption>> => {
-        return observeThingProperty(property);
+        return observeThingProperty(property, 10e3);
       }),
       mapFilter$$$<IDefaultNotificationsUnion<IPowerConsumption>, number>((notification: IDefaultNotificationsUnion<IPowerConsumption>): IMapFilterMapFunctionReturn<number> => {
         return (notification.name === 'next')

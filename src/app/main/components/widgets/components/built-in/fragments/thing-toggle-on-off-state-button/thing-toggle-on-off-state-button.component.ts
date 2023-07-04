@@ -1,5 +1,6 @@
 import { Abortable, AsyncTask, IAsyncTaskSuccessFunction } from '@lirx/async-task';
 import {
+  $log,
   IDefaultNotificationsUnion,
   IMapFilterMapFunctionReturn,
   IObservable,
@@ -16,7 +17,7 @@ import {
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { IconPowerComponent } from '@lirx/mdi';
 import { futureUnsubscribe, IUnsubscribe } from '@lirx/utils';
-import { IOnOffState, IOnOffStateThingProperty } from '@thingmate/wot-scripting-api';
+import { IOnOff, IOnOffThingProperty } from '@thingmate/wot-scripting-api';
 import { observeThingProperty } from '../../../../../../../../misc/observe-thing-property';
 import {
   IconToggleButtonWithLoaderComponent,
@@ -41,7 +42,7 @@ interface IData {
 interface IThingToggleOnOffStateButtonComponentConfig {
   element: HTMLElement;
   inputs: [
-    ['property', IOnOffStateThingProperty],
+    ['property', IOnOffThingProperty],
   ],
   data: IData;
 }
@@ -63,10 +64,10 @@ export const ThingToggleOnOffStateButtonComponent = createComponent<IThingToggle
     const property$ = node.inputs.get$('property');
 
     const active$ = pipe$$(property$, [
-      switchMap$$$<IOnOffStateThingProperty, IDefaultNotificationsUnion<IOnOffState>>((property: IOnOffStateThingProperty): IObservable<IDefaultNotificationsUnion<IOnOffState>> => {
-        return observeThingProperty(property);
+      switchMap$$$<IOnOffThingProperty, IDefaultNotificationsUnion<IOnOff>>((property: IOnOffThingProperty): IObservable<IDefaultNotificationsUnion<IOnOff>> => {
+        return observeThingProperty(property, 10e3);
       }),
-      mapFilter$$$<IDefaultNotificationsUnion<IOnOffState>, boolean>((notification: IDefaultNotificationsUnion<IOnOffState>): IMapFilterMapFunctionReturn<boolean> => {
+      mapFilter$$$<IDefaultNotificationsUnion<IOnOff>, boolean>((notification: IDefaultNotificationsUnion<IOnOff>): IMapFilterMapFunctionReturn<boolean> => {
         return (notification.name === 'next')
           ? (notification.value === 'on')
           : MAP_FILTER_DISCARD;
@@ -99,13 +100,13 @@ export const ThingToggleOnOffStateButtonComponent = createComponent<IThingToggle
     };
 
     const toggleActiveState = (
-      property: IOnOffStateThingProperty,
+      property: IOnOffThingProperty,
     ): void => {
       if (!isLoading()) {
         $loading(true);
         readActiveState(Abortable.never)
           .successful((active: boolean, abortable: Abortable): AsyncTask<void> => {
-            return property.write(active ? 'off' : 'on', abortable)
+            return property.write!(active ? 'off' : 'on', abortable)
               .successful((_, abortable: Abortable): AsyncTask<void> => {
                 return awaitActiveState(!active, abortable);
               });
@@ -118,7 +119,7 @@ export const ThingToggleOnOffStateButtonComponent = createComponent<IThingToggle
 
     const [$loading, loading$, isLoading] = let$$<boolean>(false);
 
-    const onClickOnOffToggleButton$ = map$$(property$, (property: IOnOffStateThingProperty): IObserver<any> => {
+    const onClickOnOffToggleButton$ = map$$(property$, (property: IOnOffThingProperty): IObserver<any> => {
       return (): void => {
         if (!isLoading()) {
           toggleActiveState(property);

@@ -2,7 +2,7 @@ import { IObservable, map$$ } from '@lirx/core';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
 import { MatGridItemComponent } from '@lirx/dom-material';
 import { IconLightbulbOutlineComponent } from '@lirx/mdi';
-import { IColorThingProperty, IOnOffStateThingProperty, ISmartLightThing } from '@thingmate/wot-scripting-api';
+import { IColorThingProperty, IOnOffThingProperty, ISmartLightThing } from '@thingmate/wot-scripting-api';
 import { ThingBaseComponent } from '../../fragments/thing-base/thing-base.component';
 import { ThingColorPickerRgbOrCctComponent } from '../../fragments/thing-color-picker/rgb-or-cct/thing-color-picker-rgb-or-cct.component';
 import { ThingColorPickerRGBCWComponent } from '../../fragments/thing-color-picker/rgbcw/thing-color-picker-rgbcw.component';
@@ -21,7 +21,7 @@ import style from './smart-light.component.scss?inline';
 
 interface IData {
   readonly thing$: IObservable<ISmartLightThing>;
-  readonly stateProperty$: IObservable<IOnOffStateThingProperty>;
+  readonly onoffProperty$: IObservable<IOnOffThingProperty>;
   readonly colorProperty$: IObservable<IColorThingProperty>;
 }
 
@@ -53,17 +53,17 @@ export const SmartLightComponent = createComponent<ISmartLightComponentConfig>({
   init: (node: VirtualCustomElementNode<ISmartLightComponentConfig>): IData => {
     const thing$ = node.inputs.get$('thing');
 
-    const stateProperty$ = map$$(thing$, (thing: ISmartLightThing): IOnOffStateThingProperty => {
-      return thing.getProperty('state');
+    const onoffProperty$ = map$$(thing$, (thing: ISmartLightThing): IOnOffThingProperty => {
+      return thing.properties.onoff;
     });
 
     const colorProperty$ = map$$(thing$, (thing: ISmartLightThing): IColorThingProperty => {
-      return thing.getProperty('color');
+      return thing.properties.color;
     });
 
     return {
       thing$,
-      stateProperty$,
+      onoffProperty$,
       colorProperty$,
     };
   },

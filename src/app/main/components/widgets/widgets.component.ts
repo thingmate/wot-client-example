@@ -3,8 +3,8 @@ import { IObservable, let$$ } from '@lirx/core';
 import { mergePushSourceWithBackPressure } from '@lirx/stream';
 import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
 import { MatColumnComponent, MatColumnItemComponent } from '@lirx/dom-material';
-import { MerossThingDiscovery } from '@thingmate/vendor-meross';
-import { TuyaThingDiscovery } from '@thingmate/vendor-tuya';
+import { createTuyaThingDiscovery } from '@thingmate/vendor-tuya';
+import { createMerossThingDiscovery } from '@thingmate/vendor-meross';
 import { IGenericThing } from '@thingmate/wot-scripting-api';
 import { MEROS_CONFIG } from '../../../../configs/meross-config.private';
 import { TUYA_CONFIG } from '../../../../configs/tuya-config.private';
@@ -49,18 +49,17 @@ export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
     const [$things, things$, getThings] = let$$<IGenericThing[]>([]);
     const showOffLine = false;
 
-    const merossDiscover$ = new MerossThingDiscovery({
+    const merossDiscover$ = createMerossThingDiscovery({
       ...MEROS_CONFIG,
       fetch: asyncFetchJSONWithoutCors,
       openWebSocketMqttClient: openWebSocketMqttClientWithoutCors,
-    }).discover({ showOffLine });
+    }).discover;
 
-    const tuyaDiscover$ = new TuyaThingDiscovery({
+    const tuyaDiscover$ = createTuyaThingDiscovery({
       ...TUYA_CONFIG,
-      tuyaUserId: 'eu1554304258632qrMDF',
       location: 'central-europe',
       fetch: asyncFetchJSONWithoutCors,
-    }).discover({ showOffLine });
+    }).discover;
 
     const discover$ = mergePushSourceWithBackPressure<IGenericThing>([
       merossDiscover$,
@@ -68,16 +67,18 @@ export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
     ]);
 
     discover$((thing: IGenericThing, abortable: Abortable): AsyncTask<void> => {
-      console.log(thing);
-      $things(
-        [
-          ...getThings(),
-          thing,
-        ]
-          .sort((a: IGenericThing, b: IGenericThing): number => {
-            return Number(b.description.isOnline) - Number(a.description.isOnline);
-          }),
-      );
+      if (thing.description.online || true) {
+        console.log(thing);
+        $things(
+          [
+            ...getThings(),
+            thing,
+          ]
+            .sort((a: IGenericThing, b: IGenericThing): number => {
+              return Number(b.description.online) - Number(a.description.online);
+            }),
+        );
+      }
       return AsyncTask.void(abortable);
     }, Abortable.never);
 

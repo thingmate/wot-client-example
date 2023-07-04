@@ -11,6 +11,7 @@ import {
 } from '@lirx/store';
 import { createTimeout, IUnsubscribe } from '@lirx/utils';
 import { are_rgbcw_equal, IColorThingProperty, IRGBCW } from '@thingmate/wot-scripting-api';
+import { getThingPropertyObserveFunction } from '../../../../../../../../misc/observe-thing-property';
 
 /** STORE **/
 
@@ -46,7 +47,7 @@ const deferredWriteColorThingPropertyAction = new DeferredAsyncAction<IState, IW
     ...read(),
     loading: true,
   });
-  return property.write(color, abortable)
+  return property.write!(color, abortable)
     .finally(() => {
       write({
         ...read(),
@@ -62,7 +63,7 @@ const deferredObserveColorThingPropertyAction = new DeferredAsyncAction<IState, 
   write: IWriteStateFunction<IState>,
   abortable: Abortable,
 ): AsyncTask<void> => {
-  return property.observe()((color: IRGBCW, abortable: Abortable): AsyncTask<void> => {
+  return getThingPropertyObserveFunction(property, 10e3)((color: IRGBCW, abortable: Abortable): AsyncTask<void> => {
     write({
       ...read(),
       color,

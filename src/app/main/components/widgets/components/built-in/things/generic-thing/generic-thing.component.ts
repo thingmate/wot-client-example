@@ -5,7 +5,7 @@ import {
   createComponent,
   VirtualCustomElementNode,
 } from '@lirx/dom';
-import { IGenericThing, SmartLightThing, SmartPlugThing } from '@thingmate/wot-scripting-api';
+import { IGenericThing, isSmartPlugThing, isSmartLightThing } from '@thingmate/wot-scripting-api';
 import { SmartLightComponent } from '../smart-light/smart-light.component';
 import { SmartPlugComponent } from '../smart-plug/smart-plug.component';
 
@@ -15,7 +15,7 @@ import html from './generic-thing.component.html?raw';
 import style from './generic-thing.component.scss?inline';
 
 /**
- * COMPONENT: 'app-smart-plug'
+ * COMPONENT: 'app-generic-thing'
  **/
 
 type IGenericThingType =
@@ -54,9 +54,9 @@ export const GenericThingComponent = createComponent<IGenericThingComponentConfi
     const thing$ = node.inputs.get$('thing');
 
     const type$ = map$$(thing$, (thing: IGenericThing): IGenericThingType => {
-      if (thing instanceof SmartPlugThing) {
+      if (isSmartPlugThing(thing)) {
         return 'plug';
-      } else if (thing instanceof SmartLightThing) {
+      } else if (isSmartLightThing(thing)) {
         return 'light';
       } else {
         return 'unknown';

@@ -3,18 +3,16 @@ import {
   compileReactiveHTMLAsComponentTemplate,
   compileStyleAsComponentStyle,
   createComponent,
-  createComponentFromCustomElement,
   VirtualCustomElementNode,
 } from '@lirx/dom';
-import { MatGridComponent, MatGridItemComponent } from '@lirx/dom-material';
+import { MatGridItemComponent } from '@lirx/dom-material';
 import { IconPowerSocketDeComponent } from '@lirx/mdi';
-import { IOnOffStateThingProperty, IPowerConsumptionThingProperty, ISmartPlugThing } from '@thingmate/wot-scripting-api';
-import { WidgetHeaderIconComponent } from '../../../fragments/widget-header/fragments/widget-header-icon/widget-header-icon.component';
-import { WidgetHeaderTitleComponent } from '../../../fragments/widget-header/fragments/widget-header-title/widget-header-title.component';
-import { WidgetHeaderComponent } from '../../../fragments/widget-header/widget-header.component';
+import { IOnOffThingProperty, IPowerConsumptionThingProperty, ISmartPlugThing } from '@thingmate/wot-scripting-api';
 import { ThingBaseComponent } from '../../fragments/thing-base/thing-base.component';
 import { ThingPowerConsumptionComponent } from '../../fragments/thing-power-consumption/thing-power-consumption.component';
-import { ThingToggleOnOffStateButtonComponent } from '../../fragments/thing-toggle-on-off-state-button/thing-toggle-on-off-state-button.component';
+import {
+  ThingToggleOnOffStateButtonComponent,
+} from '../../fragments/thing-toggle-on-off-state-button/thing-toggle-on-off-state-button.component';
 
 // @ts-ignore
 import html from './smart-plug.component.html?raw';
@@ -27,7 +25,7 @@ import style from './smart-plug.component.scss?inline';
 
 interface IData {
   readonly thing$: IObservable<ISmartPlugThing>;
-  readonly stateProperty$: IObservable<IOnOffStateThingProperty>;
+  readonly onoffProperty$: IObservable<IOnOffThingProperty>;
   readonly consumptionProperty$: IObservable<IPowerConsumptionThingProperty>;
 }
 
@@ -58,17 +56,17 @@ export const SmartPlugComponent = createComponent<ISmartPlugComponentConfig>({
   init: (node: VirtualCustomElementNode<ISmartPlugComponentConfig>): IData => {
     const thing$ = node.inputs.get$('thing');
 
-    const stateProperty$ = map$$(thing$, (thing: ISmartPlugThing): IOnOffStateThingProperty => {
-      return thing.getProperty('state');
+    const onoffProperty$ = map$$(thing$, (thing: ISmartPlugThing): IOnOffThingProperty => {
+      return thing.properties.onoff;
     });
 
     const consumptionProperty$ = map$$(thing$, (thing: ISmartPlugThing): IPowerConsumptionThingProperty => {
-      return thing.getProperty('consumption');
+      return thing.properties.consumption;
     });
 
     return {
       thing$,
-      stateProperty$,
+      onoffProperty$,
       consumptionProperty$,
     };
   },
