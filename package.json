@@ -32,6 +32,7 @@
     "@lirx/mdi": "latest",
     "@lirx/store": "latest",
     "@lirx/stream": "latest",
+    "@lirx/unsubscribe": "latest",
     "@lirx/utils": "latest",
     "@thingmate/mqtt": "latest",
     "@thingmate/vendor-meross": "latest",

@@ -1,7 +1,7 @@
 import { Abortable, AsyncTask } from '@lirx/async-task';
 import { IObservable, let$$ } from '@lirx/core';
 import { mergePushSourceWithBackPressure } from '@lirx/stream';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 import { MatColumnComponent, MatColumnItemComponent } from '@lirx/dom-material';
 import { createTuyaThingDiscovery } from '@thingmate/vendor-tuya';
 import { createMerossThingDiscovery } from '@thingmate/vendor-meross';
@@ -23,20 +23,15 @@ import style from './widgets.component.scss?inline';
  * COMPONENT: 'app-widgets'
  **/
 
-interface IData {
+interface ITemplateData {
   readonly things$: IObservable<readonly IGenericThing[]>;
 }
 
-interface IWidgetsComponentConfig {
-  element: HTMLElement;
-  data: IData;
-}
-
-export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
+export const WidgetsComponent = new Component<HTMLElement, object, ITemplateData>({
   name: 'app-widgets',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       MatColumnComponent,
       MatColumnItemComponent,
       GenericThingComponent,
@@ -45,9 +40,9 @@ export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  init: (): IData => {
+  templateData: (): ITemplateData => {
     const [$things, things$, getThings] = let$$<IGenericThing[]>([]);
-    const showOffLine = false;
+    const showOffLine = true;
 
     const merossDiscover$ = createMerossThingDiscovery({
       ...MEROS_CONFIG,
@@ -67,7 +62,7 @@ export const WidgetsComponent = createComponent<IWidgetsComponentConfig>({
     ]);
 
     discover$((thing: IGenericThing, abortable: Abortable): AsyncTask<void> => {
-      if (thing.description.online || true) {
+      if (thing.description.online || showOffLine) {
         console.log(thing);
         $things(
           [

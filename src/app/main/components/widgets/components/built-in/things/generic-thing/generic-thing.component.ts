@@ -2,8 +2,10 @@ import { IObservable, map$$ } from '@lirx/core';
 import {
   compileReactiveHTMLAsComponentTemplate,
   compileStyleAsComponentStyle,
-  createComponent,
-  VirtualCustomElementNode,
+  Component,
+  VirtualComponentNode,
+  Input,
+  input,
 } from '@lirx/dom';
 import { IGenericThing, isSmartPlugThing, isSmartLightThing } from '@thingmate/wot-scripting-api';
 import { SmartLightComponent } from '../smart-light/smart-light.component';
@@ -18,40 +20,38 @@ import style from './generic-thing.component.scss?inline';
  * COMPONENT: 'app-generic-thing'
  **/
 
+export interface IGenericThingComponentData {
+  readonly thing: Input<IGenericThing>;
+}
+
 type IGenericThingType =
   | 'plug'
   | 'light'
   | 'unknown'
   ;
 
-interface IData {
+interface ITemplateData {
   readonly thing$: IObservable<IGenericThing>;
   readonly type$: IObservable<IGenericThingType>;
 }
 
-interface IGenericThingComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['thing', IGenericThing],
-  ],
-  data: IData;
-}
-
-export const GenericThingComponent = createComponent<IGenericThingComponentConfig>({
+export const GenericThingComponent = new Component<HTMLElement, IGenericThingComponentData, object>({
   name: 'app-generic-thing',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       SmartPlugComponent,
       SmartLightComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['thing'],
-  ],
-  init: (node: VirtualCustomElementNode<IGenericThingComponentConfig>): IData => {
-    const thing$ = node.inputs.get$('thing');
+  componentData: (): IGenericThingComponentData => {
+    return {
+      thing: input<IGenericThing>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IGenericThingComponentData>): ITemplateData => {
+    const thing$ = node.input$('thing');
 
     const type$ = map$$(thing$, (thing: IGenericThing): IGenericThingType => {
       if (isSmartPlugThing(thing)) {

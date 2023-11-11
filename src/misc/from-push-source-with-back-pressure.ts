@@ -1,5 +1,4 @@
-import { Abortable, AsyncTask } from '@lirx/async-task';
-import { IAsyncTaskState } from '@lirx/async-task/src/async-task/types/state/async-task-state.type';
+import { Abortable, AsyncTask, AbortableController, IAsyncTaskResolvedState } from '@lirx/async-task';
 import {
   createErrorNotification,
   createNextNotification,
@@ -17,18 +16,19 @@ export function fromPushSourceWithBackPressure<GValue>(
   return (emit: IObserver<IDefaultNotificationsUnion<GValue>>): IUnsubscribeOfObservable => {
 
     let running: boolean = true;
-    const [abort, abortable] = Abortable.derive();
+    const abortableController: AbortableController = new AbortableController();
 
-    source(
-      (value: GValue, abortable: Abortable): AsyncTask<void> => {
-        if (running) {
-          emit(createNextNotification(value));
-        }
-        return AsyncTask.void(abortable);
-      },
-      abortable,
-    )
-      .settled((state: IAsyncTaskState<void>): void => {
+    AsyncTask.whenResolved(
+      source(
+        (value: GValue, abortable: Abortable): AsyncTask<void> => {
+          if (running) {
+            emit(createNextNotification(value));
+          }
+          return AsyncTask.void(abortable);
+        },
+        abortableController.abortable,
+      ),
+      (state: IAsyncTaskResolvedState<void>): void => {
         if (running) {
           switch (state.state) {
             case 'success':
@@ -42,12 +42,13 @@ export function fromPushSourceWithBackPressure<GValue>(
               break;
           }
         }
-      });
+      },
+    );
 
     return (): void => {
       if (running) {
         running = false;
-        abort('cancelled');
+        abortableController.abort('cancelled');
       }
     };
   };

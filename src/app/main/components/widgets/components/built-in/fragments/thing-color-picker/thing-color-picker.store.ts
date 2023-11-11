@@ -1,4 +1,4 @@
-import { Abortable, AsyncTask, IAbortFunction } from '@lirx/async-task';
+import { Abortable, AsyncTask, IAbortFunction, AbortableController } from '@lirx/async-task';
 import { IObservable, IObserver, pipe$$, shareRL$$, shareRL$$$, switchMap$$$ } from '@lirx/core';
 import {
   DeferredAction,
@@ -9,7 +9,8 @@ import {
   IWriteStateFunction,
   Store,
 } from '@lirx/store';
-import { createTimeout, IUnsubscribe } from '@lirx/utils';
+import { createTimeout } from '@lirx/utils';
+import { IUnsubscribe } from '@lirx/unsubscribe';
 import { are_rgbcw_equal, IColorThingProperty, IRGBCW } from '@thingmate/wot-scripting-api';
 import { getThingPropertyObserveFunction } from '../../../../../../../../misc/observe-thing-property';
 
@@ -122,8 +123,12 @@ export function createThingColorPickerComponentContext(
         emit: IObserver<IObserver<IRGBCW>>,
       ): IUnsubscribe => {
         // OBSERVE
-        const [abortObserveColorThingProperty, observeColorThingPropertyAbortable] = Abortable.derive();
-        observeColorThingPropertyAction.invoke(property, observeColorThingPropertyAbortable);
+        const abortableController: AbortableController = new AbortableController();
+
+        observeColorThingPropertyAction.invoke(property, abortableController.abortable)
+          .errored((_) => {
+            console.error(_);
+          });
 
         // WRITE
         let timer: any;
@@ -159,7 +164,7 @@ export function createThingColorPickerComponentContext(
 
         return (): void => {
           const reason = 'aborted';
-          abortObserveColorThingProperty(reason);
+          abortableController.abort(reason);
           abortWriteColor(reason);
         };
       };

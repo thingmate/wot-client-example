@@ -1,6 +1,6 @@
 import { IRGBColor } from '@lifaon/color';
 import { $$map, IObservable, IObserver, map$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, input, Input, VirtualComponentNode } from '@lirx/dom';
 import { MatLoadingComponent } from '@lirx/dom-material';
 import { IColorThingProperty, IRGBCW } from '@thingmate/wot-scripting-api';
 import { WidgetColorPickerComponent } from '../../../../fragments/widget-color-picker/widget-color-picker.component';
@@ -16,7 +16,11 @@ import style from './thing-color-picker-rgbcw.component.scss?inline';
  * COMPONENT: 'app-thing-color-picker-rgbcw'
  **/
 
-interface IData {
+export interface IThingColorPickerRGBCWComponentData {
+  readonly property: Input<IColorThingProperty>;
+}
+
+interface ITemplateData {
   readonly loading$: IObservable<boolean>;
   readonly $rgbPicker: IObservable<IObserver<IRGBColor>>;
   readonly rgbPicker$: IObservable<IRGBColor>;
@@ -26,30 +30,26 @@ interface IData {
   readonly warmPicker$: IObservable<number>;
 }
 
-interface IThingColorPickerRGBCWComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['property', IColorThingProperty],
-  ],
-  data: IData;
-}
 
-export const ThingColorPickerRGBCWComponent = createComponent<IThingColorPickerRGBCWComponentConfig>({
+
+export const ThingColorPickerRGBCWComponent = new Component<HTMLElement, IThingColorPickerRGBCWComponentData, ITemplateData>({
   name: 'app-thing-color-picker-rgbcw',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       MatLoadingComponent,
       WidgetColorPickerComponent,
       WidgetRangePickerComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['property'],
-  ],
-  init: (node: VirtualCustomElementNode<IThingColorPickerRGBCWComponentConfig>): IData => {
-    const property$ = node.inputs.get$('property');
+  componentData: (): IThingColorPickerRGBCWComponentData => {
+    return {
+      property: input<IColorThingProperty>(),
+    }
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IThingColorPickerRGBCWComponentData>): ITemplateData => {
+    const property$ = node.input$('property');
 
     /* CONTEXT */
 

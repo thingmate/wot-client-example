@@ -1,4 +1,3 @@
-import { Abortable, AsyncTask } from '@lirx/async-task';
 import {
   $log,
   distinct$$$,
@@ -7,10 +6,17 @@ import {
   map$$,
   notificationsToImmediate$$$,
   pipe$$,
-  shareRL$$$, single,
+  shareRL$$$,
   switchMap$$$,
 } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  Component,
+  VirtualComponentNode,
+  Input,
+  input,
+} from '@lirx/dom';
 import { MatGridComponent, MatGridItemComponent } from '@lirx/dom-material';
 import { IGenericThing, IOnlineThingProperty, ISmartLightThing } from '@thingmate/wot-scripting-api';
 import { observeThingProperty } from '../../../../../../../../misc/observe-thing-property';
@@ -28,24 +34,20 @@ import style from './thing-base.component.scss?inline';
  * COMPONENT: 'app-thing-base'
  **/
 
-interface IData {
+export interface IThingBaseComponentData {
+  readonly thing: Input<IGenericThing>;
+}
+
+interface ITemplateData {
   readonly title$: IObservable<string>;
   readonly isOnline$: IObservable<boolean>;
 }
 
-interface IThingBaseComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['thing', IGenericThing],
-  ],
-  data: IData;
-}
-
-export const ThingBaseComponent = createComponent<IThingBaseComponentConfig>({
+export const ThingBaseComponent = new Component<HTMLElement, IThingBaseComponentData, ITemplateData>({
   name: 'app-thing-base',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       MatGridComponent,
       MatGridItemComponent,
       WidgetHeaderComponent,
@@ -55,11 +57,13 @@ export const ThingBaseComponent = createComponent<IThingBaseComponentConfig>({
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['thing'],
-  ],
-  init: (node: VirtualCustomElementNode<IThingBaseComponentConfig>): IData => {
-    const thing$ = node.inputs.get$('thing');
+  componentData: (): IThingBaseComponentData => {
+    return {
+      thing: input<IGenericThing>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IThingBaseComponentData>): ITemplateData => {
+    const thing$ = node.input$('thing');
 
     const title$ = map$$(thing$, (thing: ISmartLightThing): string => {
       return thing.description.title;
@@ -73,7 +77,9 @@ export const ThingBaseComponent = createComponent<IThingBaseComponentConfig>({
       switchMap$$$<IOnlineThingProperty, IDefaultNotificationsUnion<boolean>>((property: IOnlineThingProperty): IObservable<IDefaultNotificationsUnion<boolean>> => {
         return observeThingProperty(property, 10e3);
       }),
-      notificationsToImmediate$$$<boolean>(),
+      notificationsToImmediate$$$<boolean>((error: unknown): void => {
+        console.error(error);
+      }),
       distinct$$$<boolean>(),
       shareRL$$$<boolean>(),
     ]);

@@ -8,11 +8,11 @@ import {
   shareRL$$$,
   switchMap$$$,
 } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, input, Input, VirtualComponentNode } from '@lirx/dom';
 import { IPowerConsumptionThingProperty, IPowerConsumption } from '@thingmate/wot-scripting-api';
 import { observeThingProperty } from '../../../../../../../../misc/observe-thing-property';
 import {
-  WidgetNumberWithSiUnitComponent
+  WidgetNumberWithSiUnitComponent,
 } from '../../../fragments/widget-number-with-unit/built-in/widget-number-with-si-unit/widget-number-with-si-unit.component';
 
 // @ts-ignore
@@ -24,32 +24,30 @@ import style from './thing-power-consumption.component.scss?inline';
  * COMPONENT: 'app-thing-power-consumption'
  **/
 
-interface IData {
+export interface IThingPowerConsumptionComponentData {
+  readonly property: Input<IPowerConsumptionThingProperty>;
+}
+
+interface ITemplateData {
   readonly power$: IObservable<number>;
 }
 
-interface IThingPowerConsumptionComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['property', IPowerConsumptionThingProperty],
-  ],
-  data: IData;
-}
-
-export const ThingPowerConsumptionComponent = createComponent<IThingPowerConsumptionComponentConfig>({
+export const ThingPowerConsumptionComponent = new Component<HTMLElement, IThingPowerConsumptionComponentData, ITemplateData>({
   name: 'app-thing-power-consumption',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       WidgetNumberWithSiUnitComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['property'],
-  ],
-  init: (node: VirtualCustomElementNode<IThingPowerConsumptionComponentConfig>): IData => {
-    const property$ = node.inputs.get$('property');
+  componentData: (): IThingPowerConsumptionComponentData => {
+    return {
+      property: input<IPowerConsumptionThingProperty>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IThingPowerConsumptionComponentData>): ITemplateData => {
+    const property$ = node.input$('property');
 
     const power$ = pipe$$(property$, [
       switchMap$$$<IPowerConsumptionThingProperty, IDefaultNotificationsUnion<IPowerConsumption>>((property: IPowerConsumptionThingProperty): IObservable<IDefaultNotificationsUnion<IPowerConsumption>> => {

@@ -1,6 +1,13 @@
 import { css_rgb_hex_color_to_rgb, IRGBColor, rgb_to_css_rgb_hex_color } from '@lifaon/color';
 import { $$map, IObservable, IObserver, map$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  Component,
+  VirtualComponentNode,
+  input,
+  Input, Output, output,
+} from '@lirx/dom';
 
 // @ts-ignore
 import html from './widget-color-picker.component.html?raw';
@@ -11,37 +18,31 @@ import style from './widget-color-picker.component.scss?inline';
  * COMPONENT: 'app-widget-color-picker'
  **/
 
-interface IData {
+export interface IWidgetColorPickerComponentData {
+  readonly value: Input<IRGBColor>;
+  readonly valueChange: Output<IRGBColor>;
+}
+
+interface ITemplateData {
   readonly inputValue$: IObservable<string>;
   readonly $onInputChange: IObserver<Event>;
 }
 
-interface IWidgetColorPickerComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['value', IRGBColor],
-  ];
-  outputs: [
-    ['value', IRGBColor],
-  ];
-  data: IData;
-}
-
-export const WidgetColorPickerComponent = createComponent<IWidgetColorPickerComponentConfig>({
+export const WidgetColorPickerComponent = new Component<HTMLElement, IWidgetColorPickerComponentData, ITemplateData>({
   name: 'app-widget-color-picker',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['value'],
-  ],
-  outputs: [
-    ['value'],
-  ],
-  init: (node: VirtualCustomElementNode<IWidgetColorPickerComponentConfig>): IData => {
-    const value$ = node.inputs.get$('value');
-    const $value = node.outputs.$set('value');
+  componentData: (): IWidgetColorPickerComponentData => {
+    return {
+      value: input<IRGBColor>(),
+      valueChange: output<IRGBColor>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IWidgetColorPickerComponentData>): ITemplateData => {
+    const value$ = node.input$('value');
+    const $value = node.$output('valueChange');
 
     const cssHexRGBColor$ = map$$(value$, rgb_to_css_rgb_hex_color);
     const $cssHexRGBColor = $$map($value, css_rgb_hex_color_to_rgb);

@@ -1,5 +1,5 @@
 import { IObservable } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, VirtualComponentNode, input, Input } from '@lirx/dom';
 import { MatDualRingLoaderComponent } from '@lirx/dom-material';
 import { WidgetIconToggleButtonComponent } from '../../widget-icon-toggle-button.component';
 
@@ -12,36 +12,34 @@ import style from './icon-toggle-button-with-loader.component.scss?inline';
  * COMPONENT: 'app-widget-icon-toggle-button-with-loader'
  **/
 
-interface IData {
+export interface IWidgetIconToggleButtonWithLoaderComponentData {
+  readonly active: Input<boolean>;
+  readonly loading: Input<boolean>;
+}
+
+interface ITemplateData {
   readonly active$: IObservable<boolean>;
 }
 
-interface IWidgetIconToggleButtonWithLoaderComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['active', boolean],
-    ['loading', boolean],
-  ],
-  data: IData;
-}
-
-export const IconToggleButtonWithLoaderComponent = createComponent<IWidgetIconToggleButtonWithLoaderComponentConfig>({
+export const IconToggleButtonWithLoaderComponent = new Component<HTMLElement, IWidgetIconToggleButtonWithLoaderComponentData, ITemplateData>({
   name: 'app-widget-icon-toggle-button-with-loader',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       WidgetIconToggleButtonComponent,
       MatDualRingLoaderComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['active'],
-    ['loading', false],
-  ],
-  init: (node: VirtualCustomElementNode<IWidgetIconToggleButtonWithLoaderComponentConfig>): IData => {
-    const active$ = node.inputs.get$('active');
-    const loading$ = node.inputs.get$('loading');
+  componentData: (): IWidgetIconToggleButtonWithLoaderComponentData => {
+    return {
+      active: input<boolean>(),
+      loading: input<boolean>(false),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IWidgetIconToggleButtonWithLoaderComponentData>): ITemplateData => {
+    const active$ = node.input$('active');
+    const loading$ = node.input$('loading');
 
     node.setReactiveClass('loading', loading$);
 

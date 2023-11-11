@@ -1,4 +1,4 @@
-import { Abortable, AsyncTask, IAsyncTaskFactory, IAsyncTaskConstraint } from '@lirx/async-task';
+import { AsyncTask, IAsyncTaskFactory, IAsyncTaskConstraint, AbortableController } from '@lirx/async-task';
 import {
   createErrorNotification,
   createNextNotification,
@@ -14,9 +14,10 @@ export function fromAsyncTaskFactory<GValue extends IAsyncTaskConstraint<GValue>
 ): IObservable<IDefaultNotificationsUnion<GValue>> {
   return (emit: IObserver<IDefaultNotificationsUnion<GValue>>): IUnsubscribeOfObservable => {
     let running: boolean = true;
-    const [abort, abortable] = Abortable.derive();
 
-    AsyncTask.fromFactory(factory, abortable)
+    const abortableController: AbortableController = new AbortableController();
+
+    AsyncTask.fromFactory(factory, abortableController.abortable)
       .then(
         (value: GValue): void => {
           if (running) {
@@ -36,7 +37,7 @@ export function fromAsyncTaskFactory<GValue extends IAsyncTaskConstraint<GValue>
     return (): void => {
       if (running) {
         running = false;
-        abort('cancelled');
+        abortableController.abort('cancelled');
       }
     };
   };

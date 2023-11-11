@@ -1,4 +1,11 @@
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  Component,
+  VirtualComponentNode,
+  Input,
+  input,
+} from '@lirx/dom';
 import { WidgetIconButtonComponent } from '../../widget-icon-button.component';
 
 // @ts-ignore
@@ -10,27 +17,26 @@ import style from './widget-icon-toggle-button.component.scss?inline';
  * COMPONENT: 'app-widget-icon-toggle-button'
  **/
 
-interface IWidgetIconToggleButtonComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['active', boolean],
-  ],
+export interface IWidgetIconToggleButtonComponentData {
+  readonly active: Input<boolean>;
 }
 
-export const WidgetIconToggleButtonComponent = createComponent<IWidgetIconToggleButtonComponentConfig>({
+export const WidgetIconToggleButtonComponent = new Component<HTMLElement, IWidgetIconToggleButtonComponentData, object>({
   name: 'app-widget-icon-toggle-button',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       WidgetIconButtonComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['active', false],
-  ],
-  init: (node: VirtualCustomElementNode<IWidgetIconToggleButtonComponentConfig>): void => {
-    const active$ = node.inputs.get$('active');
+  componentData: (): IWidgetIconToggleButtonComponentData => {
+    return {
+      active: input<boolean>(false),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IWidgetIconToggleButtonComponentData>): void => {
+    const active$ = node.input$('active');
     node.setReactiveClass('active', active$);
   },
 });

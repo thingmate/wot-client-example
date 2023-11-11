@@ -23,7 +23,7 @@
       $[max]="1"
       $[step]="0.05"
       $[value]="$.temperaturePicker$"
-      ${value}="$.$temperaturePicker"
+      ${valueChange}="$.$temperaturePicker"
     ></app-widget-range-picker>
 
     <app-widget-range-picker
@@ -32,13 +32,13 @@
       $[max]="1"
       $[step]="0.01"
       $[value]="$.brightnessPicker$"
-      ${value}="$.$brightnessPicker"
+      ${valueChange}="$.$brightnessPicker"
     ></app-widget-range-picker>
 
     <app-widget-color-picker
       class="rgb"
       $[value]="$.rgbPicker$"
-      ${value}="$.$rgbPicker"
+      ${valueChange}="$.$rgbPicker"
     ></app-widget-color-picker>
 <!--    <rx-switch expression="$.mode$">-->
 <!--      <rx-switch-case case="'cct'">-->

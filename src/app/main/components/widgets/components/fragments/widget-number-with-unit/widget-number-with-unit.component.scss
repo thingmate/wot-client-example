@@ -30,7 +30,6 @@
     padding-left: 2px;
     color: widget-number-with-unit.$widget-number-with-unit-unit-color;
     font-size: calc(#{$height} * 0.25);
-    text-transform: uppercase;
     transform: translateY(calc(#{$height} * 0.08));
   }
 }

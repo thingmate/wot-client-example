@@ -1,5 +1,12 @@
-import { $$map, $log, function$$, IObservable, IObserver, toString$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { $$map, function$$, IObservable, IObserver, toString$$ } from '@lirx/core';
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  Component,
+  VirtualComponentNode,
+  input,
+  Input, Output, output,
+} from '@lirx/dom';
 import { cssVarsSizeModifierFunction } from '@lirx/dom-material';
 
 // @ts-ignore
@@ -11,7 +18,16 @@ import style from './widget-range-picker.component.scss?inline';
  * COMPONENT: 'app-widget-range-picker'
  **/
 
-interface IData {
+export interface IWidgetRangePickerComponentData {
+  readonly value: Input<number>;
+  readonly valueChange: Output<number>;
+  readonly min: Input<number>;
+  readonly max: Input<number>;
+  readonly step: Input<number>;
+  readonly text: Input<string>;
+}
+
+interface ITemplateData {
   readonly min$: IObservable<number>;
   readonly max$: IObservable<number>;
   readonly step$: IObservable<number>;
@@ -20,49 +36,34 @@ interface IData {
   readonly $onInputChange: IObserver<Event>;
 }
 
-interface IWidgetRangePickerComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['value', number],
-    ['min', number],
-    ['max', number],
-    ['step', number],
-    ['text', string],
-  ];
-  outputs: [
-    ['value', number],
-  ];
-  data: IData;
-}
-
-export const WidgetRangePickerComponent = createComponent<IWidgetRangePickerComponentConfig>({
+export const WidgetRangePickerComponent = new Component<HTMLElement, IWidgetRangePickerComponentData, ITemplateData>({
   name: 'app-widget-range-picker',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['value', 0.0],
-    ['min', 0],
-    ['max', 1],
-    ['step'],
-    ['text'],
-  ],
-  outputs: [
-    ['value'],
-  ],
-  init: (node: VirtualCustomElementNode<IWidgetRangePickerComponentConfig>): IData => {
+  componentData: (): IWidgetRangePickerComponentData => {
+    return {
+      value: input<number>(0.0),
+      valueChange: output<number>(),
+      min: input<number>(0),
+      max: input<number>(1),
+      step: input<number>(),
+      text: input<string>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IWidgetRangePickerComponentData>): ITemplateData => {
     cssVarsSizeModifierFunction(node);
 
-    const min$ = node.inputs.get$('min');
-    const max$ = node.inputs.get$('max');
-    const step$ = node.inputs.get$('step');
-    const text$ = node.inputs.get$('text');
+    const min$ = node.input$('min');
+    const max$ = node.input$('max');
+    const step$ = node.input$('step');
+    const text$ = node.input$('text');
 
     /* VALUE */
 
-    const value$ = node.inputs.get$('value');
-    const $value = node.outputs.$set('value');
+    const value$ = node.input$('value');
+    const $value = node.$output('valueChange');
 
     const inputValue$ = value$;
 

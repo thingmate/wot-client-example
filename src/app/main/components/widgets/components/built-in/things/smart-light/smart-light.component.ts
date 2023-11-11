@@ -1,5 +1,5 @@
 import { IObservable, map$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, VirtualComponentNode, input, Input } from '@lirx/dom';
 import { MatGridItemComponent } from '@lirx/dom-material';
 import { IconLightbulbOutlineComponent } from '@lirx/mdi';
 import { IColorThingProperty, IOnOffThingProperty, ISmartLightThing } from '@thingmate/wot-scripting-api';
@@ -19,25 +19,21 @@ import style from './smart-light.component.scss?inline';
  * COMPONENT: 'app-smart-light'
  **/
 
-interface IData {
+export interface ISmartLightComponentData {
+  readonly thing: Input<ISmartLightThing>;
+}
+
+interface ITemplateData {
   readonly thing$: IObservable<ISmartLightThing>;
   readonly onoffProperty$: IObservable<IOnOffThingProperty>;
   readonly colorProperty$: IObservable<IColorThingProperty>;
 }
 
-interface ISmartLightComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['thing', ISmartLightThing],
-  ],
-  data: IData;
-}
-
-export const SmartLightComponent = createComponent<ISmartLightComponentConfig>({
+export const SmartLightComponent = new Component<HTMLElement, ISmartLightComponentData, ITemplateData>({
   name: 'app-smart-light',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       ThingBaseComponent,
       MatGridItemComponent,
       IconLightbulbOutlineComponent,
@@ -47,11 +43,13 @@ export const SmartLightComponent = createComponent<ISmartLightComponentConfig>({
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['thing'],
-  ],
-  init: (node: VirtualCustomElementNode<ISmartLightComponentConfig>): IData => {
-    const thing$ = node.inputs.get$('thing');
+  componentData: (): ISmartLightComponentData => {
+    return {
+      thing: input<ISmartLightThing>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, ISmartLightComponentData>): ITemplateData => {
+    const thing$ = node.input$('thing');
 
     const onoffProperty$ = map$$(thing$, (thing: ISmartLightThing): IOnOffThingProperty => {
       return thing.properties.onoff;

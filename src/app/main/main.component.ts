@@ -1,4 +1,4 @@
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component } from '@lirx/dom';
 // import { MatIconsSearchComponent } from '@lirx/mdi';
 import { WidgetsComponent } from './components/widgets/widgets.component';
 
@@ -11,26 +11,14 @@ import style from './main.component.scss?inline';
  * COMPONENT: 'app-main'
  **/
 
-interface IData {
-}
-
-interface IMainComponentConfig {
-  element: HTMLElement;
-  data: IData;
-}
-
-export const MainComponent = createComponent<IMainComponentConfig>({
+export const MainComponent = new Component<HTMLElement, object, object>({
   name: 'app-main',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       // MatIconsSearchComponent,
       WidgetsComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  init: (node: VirtualCustomElementNode<IMainComponentConfig>): IData => {
-    // node.setClass('dark-theme', true);
-    return {};
-  },
 });

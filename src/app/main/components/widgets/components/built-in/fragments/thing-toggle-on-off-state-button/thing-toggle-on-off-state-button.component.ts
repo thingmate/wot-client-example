@@ -1,6 +1,5 @@
 import { Abortable, AsyncTask, IAsyncTaskSuccessFunction } from '@lirx/async-task';
 import {
-  $log,
   IDefaultNotificationsUnion,
   IMapFilterMapFunctionReturn,
   IObservable,
@@ -14,14 +13,21 @@ import {
   subscribeOnce,
   switchMap$$$,
 } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import {
+  compileReactiveHTMLAsComponentTemplate,
+  compileStyleAsComponentStyle,
+  Component,
+  VirtualComponentNode,
+  Input,
+  input,
+} from '@lirx/dom';
 import { IconPowerComponent } from '@lirx/mdi';
-import { futureUnsubscribe, IUnsubscribe } from '@lirx/utils';
 import { IOnOff, IOnOffThingProperty } from '@thingmate/wot-scripting-api';
 import { observeThingProperty } from '../../../../../../../../misc/observe-thing-property';
 import {
   IconToggleButtonWithLoaderComponent,
 } from '../../../fragments/widget-icon-button/built-in/widget-icon-toggle-button/built-in/widget-icon-toggle-button-with-loader/icon-toggle-button-with-loader.component';
+import { IUnsubscribe, futureUnsubscribe } from '@lirx/unsubscribe';
 
 // @ts-ignore
 import html from './thing-toggle-on-off-state-button.component.html?raw';
@@ -32,36 +38,33 @@ import style from './thing-toggle-on-off-state-button.component.scss?inline';
  * COMPONENT: 'thing-toggle-on-off-state-button'
  **/
 
+export interface IThingToggleOnOffStateButtonComponentData {
+  readonly property: Input<IOnOffThingProperty>;
+}
 
-interface IData {
+interface ITemplateData {
   readonly active$: IObservable<boolean>;
   readonly loading$: IObservable<boolean>;
   readonly onClickOnOffToggleButton$: IObservable<IObserver<any>>;
 }
 
-interface IThingToggleOnOffStateButtonComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['property', IOnOffThingProperty],
-  ],
-  data: IData;
-}
-
-export const ThingToggleOnOffStateButtonComponent = createComponent<IThingToggleOnOffStateButtonComponentConfig>({
+export const ThingToggleOnOffStateButtonComponent = new Component<HTMLElement, IThingToggleOnOffStateButtonComponentData, ITemplateData>({
   name: 'app-thing-toggle-on-off-state-button',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       IconToggleButtonWithLoaderComponent,
       IconPowerComponent,
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['property'],
-  ],
-  init: (node: VirtualCustomElementNode<IThingToggleOnOffStateButtonComponentConfig>): IData => {
-    const property$ = node.inputs.get$('property');
+  componentData: (): IThingToggleOnOffStateButtonComponentData => {
+    return {
+      property: input<IOnOffThingProperty>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IThingToggleOnOffStateButtonComponentData>): ITemplateData => {
+    const property$ = node.input$('property');
 
     const active$ = pipe$$(property$, [
       switchMap$$$<IOnOffThingProperty, IDefaultNotificationsUnion<IOnOff>>((property: IOnOffThingProperty): IObservable<IDefaultNotificationsUnion<IOnOff>> => {

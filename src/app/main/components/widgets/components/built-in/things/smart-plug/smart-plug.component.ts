@@ -2,8 +2,10 @@ import { IObservable, map$$ } from '@lirx/core';
 import {
   compileReactiveHTMLAsComponentTemplate,
   compileStyleAsComponentStyle,
-  createComponent,
-  VirtualCustomElementNode,
+  Component,
+  VirtualComponentNode,
+  input,
+  Input,
 } from '@lirx/dom';
 import { MatGridItemComponent } from '@lirx/dom-material';
 import { IconPowerSocketDeComponent } from '@lirx/mdi';
@@ -23,25 +25,21 @@ import style from './smart-plug.component.scss?inline';
  * COMPONENT: 'app-smart-plug'
  **/
 
-interface IData {
+export interface ISmartPlugComponentData {
+  readonly thing: Input<ISmartPlugThing>;
+}
+
+interface ITemplateData {
   readonly thing$: IObservable<ISmartPlugThing>;
   readonly onoffProperty$: IObservable<IOnOffThingProperty>;
   readonly consumptionProperty$: IObservable<IPowerConsumptionThingProperty>;
 }
 
-interface ISmartPlugComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['thing', ISmartPlugThing],
-  ],
-  data: IData;
-}
-
-export const SmartPlugComponent = createComponent<ISmartPlugComponentConfig>({
+export const SmartPlugComponent = new Component<HTMLElement, ISmartPlugComponentData, ITemplateData>({
   name: 'app-smart-plug',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       ThingBaseComponent,
       MatGridItemComponent,
       IconPowerSocketDeComponent,
@@ -50,11 +48,13 @@ export const SmartPlugComponent = createComponent<ISmartPlugComponentConfig>({
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['thing'],
-  ],
-  init: (node: VirtualCustomElementNode<ISmartPlugComponentConfig>): IData => {
-    const thing$ = node.inputs.get$('thing');
+  componentData: (): ISmartPlugComponentData => {
+    return {
+      thing: input<ISmartPlugThing>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, ISmartPlugComponentData>): ITemplateData => {
+    const thing$ = node.input$('thing');
 
     const onoffProperty$ = map$$(thing$, (thing: ISmartPlugThing): IOnOffThingProperty => {
       return thing.properties.onoff;

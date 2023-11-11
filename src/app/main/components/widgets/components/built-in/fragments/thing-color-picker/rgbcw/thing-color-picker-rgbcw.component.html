@@ -2,9 +2,8 @@
   <app-widget-color-picker
     class="rgb"
     $[value]="$.rgbPicker$"
-    ${value}="$.$rgbPicker"
+    ${valueChange}="$.$rgbPicker"
   ></app-widget-color-picker>
-
   <div class="sliders">
     <app-widget-range-picker
       class="cold"
@@ -12,7 +11,7 @@
       $[max]="1"
       $[step]="0.05"
       $[value]="$.coldPicker$"
-      ${value}="$.$coldPicker"
+      ${valueChange}="$.$coldPicker"
     ></app-widget-range-picker>
 
     <app-widget-range-picker
@@ -21,7 +20,7 @@
       $[max]="1"
       $[step]="0.01"
       $[value]="$.warmPicker$"
-      ${value}="$.$warmPicker"
+      ${valueChange}="$.$warmPicker"
     ></app-widget-range-picker>
   </div>
 </mat-loading>

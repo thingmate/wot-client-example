@@ -1,17 +1,18 @@
 import { IRGBColor } from '@lifaon/color';
 import { Abortable } from '@lirx/async-task';
 import { $$map, IObservable, IObserver, let$$, map$$, shareRL$$ } from '@lirx/core';
-import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, createComponent, VirtualCustomElementNode } from '@lirx/dom';
+import { compileReactiveHTMLAsComponentTemplate, compileStyleAsComponentStyle, Component, input, Input, VirtualComponentNode } from '@lirx/dom';
 import { MatLoadingComponent } from '@lirx/dom-material';
 import {
-  IClassNamesList
-} from '@lirx/dom/src/dom-manipulation/virtual-nodes/virtual-reactive-element-node/members/class/class-names-list.type';
+  IClassNamesList,
+} from '@lirx/dom/';
 import { IconGradientHorizontalComponent, IconPaletteOutlineComponent } from '@lirx/mdi';
 import { cct_to_cw, cw_to_cct, ICCT, IColorThingProperty, IRGBCW } from '@thingmate/wot-scripting-api';
 import { WidgetColorPickerComponent } from '../../../../fragments/widget-color-picker/widget-color-picker.component';
 import { WidgetIconButtonComponent } from '../../../../fragments/widget-icon-button/widget-icon-button.component';
 import { WidgetRangePickerComponent } from '../../../../fragments/widget-range-picker/widget-range-picker.component';
 import { createThingColorPickerComponentContext } from '../thing-color-picker.store';
+import { IUnsubscribe } from '@lirx/unsubscribe';
 
 // @ts-ignore
 import html from './thing-color-picker-rgb-or-cct.component.html?raw';
@@ -22,12 +23,16 @@ import style from './thing-color-picker-rgb-or-cct.component.scss?inline';
  * COMPONENT: 'app-thing-color-picker-rgb-or-cct'
  **/
 
+export interface IThingColorPickerComponentData {
+  readonly property: Input<IColorThingProperty>;
+}
+
 type IThingColorPickerMode =
   | 'cct'
   | 'rgb'
   ;
 
-interface IData {
+interface ITemplateData {
   readonly loading$: IObservable<boolean>;
   readonly mode$: IObservable<IThingColorPickerMode>;
   readonly $onClickToggleModeButton: IObserver<Event>;
@@ -40,19 +45,11 @@ interface IData {
   readonly brightnessPicker$: IObservable<number>;
 }
 
-interface IThingColorPickerComponentConfig {
-  element: HTMLElement;
-  inputs: [
-    ['property', IColorThingProperty],
-  ],
-  data: IData;
-}
-
-export const ThingColorPickerRgbOrCctComponent = createComponent<IThingColorPickerComponentConfig>({
+export const ThingColorPickerRgbOrCctComponent = new Component<HTMLElement, IThingColorPickerComponentData, ITemplateData>({
   name: 'app-thing-color-picker-rgb-or-cct',
   template: compileReactiveHTMLAsComponentTemplate({
     html,
-    customElements: [
+    components: [
       MatLoadingComponent,
       IconGradientHorizontalComponent,
       IconPaletteOutlineComponent,
@@ -62,11 +59,13 @@ export const ThingColorPickerRgbOrCctComponent = createComponent<IThingColorPick
     ],
   }),
   styles: [compileStyleAsComponentStyle(style)],
-  inputs: [
-    ['property'],
-  ],
-  init: (node: VirtualCustomElementNode<IThingColorPickerComponentConfig>): IData => {
-    const property$ = node.inputs.get$('property');
+  componentData: (): IThingColorPickerComponentData => {
+    return {
+      property: input<IColorThingProperty>(),
+    };
+  },
+  templateData: (node: VirtualComponentNode<HTMLElement, IThingColorPickerComponentData>): ITemplateData => {
+    const property$ = node.input$('property');
 
     /* MODE */
 
@@ -79,18 +78,20 @@ export const ThingColorPickerRgbOrCctComponent = createComponent<IThingColorPick
       $mode(mode);
     };
 
-    node.onConnected$(property$)((property: IColorThingProperty): void => {
-      property.read(Abortable.never)
-        .successful(({ r, g, b }: IRGBCW): void => {
-          const mode: IThingColorPickerMode = (
-            (r === 0)
-            && (g === 0)
-            && (b === 0)
-          )
-            ? 'cct'
-            : 'rgb';
-          $mode(mode);
-        });
+    node.onConnected((): IUnsubscribe => {
+      return property$((property: IColorThingProperty): void => {
+        property.read(Abortable.never)
+          .successful(({ r, g, b }: IRGBCW): void => {
+            const mode: IThingColorPickerMode = (
+              (r === 0)
+              && (g === 0)
+              && (b === 0)
+            )
+              ? 'cct'
+              : 'rgb';
+            $mode(mode);
+          });
+      });
     });
 
     const modeAsText$ = map$$(mode$, (mode: IThingColorPickerMode): string => {

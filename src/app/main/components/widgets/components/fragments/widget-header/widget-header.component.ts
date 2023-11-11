@@ -1,4 +1,4 @@
-import { compileStyleAsComponentStyle, createComponent, INJECT_CONTENT_TEMPLATE, VirtualCustomElementNode } from '@lirx/dom';
+import { compileStyleAsComponentStyle, Component, INJECT_CONTENT_TEMPLATE, VirtualComponentNode } from '@lirx/dom';
 import { cssVarsSizeModifierFunction } from '@lirx/dom-material';
 
 // @ts-ignore
@@ -8,15 +8,11 @@ import style from './widget-header.component.scss?inline';
  * COMPONENT: 'app-widget-header'
  **/
 
-interface IWidgetHeaderComponentConfig {
-  element: HTMLElement;
-}
-
-export const WidgetHeaderComponent = createComponent<IWidgetHeaderComponentConfig>({
+export const WidgetHeaderComponent = new Component<HTMLElement, object, object>({
   name: 'app-widget-header',
   template: INJECT_CONTENT_TEMPLATE,
   styles: [compileStyleAsComponentStyle(style)],
-  init: (node: VirtualCustomElementNode<IWidgetHeaderComponentConfig>): void => {
+  templateData: (node: VirtualComponentNode<HTMLElement, object>): void => {
     cssVarsSizeModifierFunction(node);
   },
 });
